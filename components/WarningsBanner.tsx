@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Info, ShieldAlert } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info, ShieldAlert } from "lucide-react";
 import type { QualityWarning } from "@/lib/types/api";
 
 interface WarningsBannerProps {
@@ -12,17 +12,20 @@ const SEVERITY_STYLE: Record<
   { wrapper: string; icon: React.ComponentType<{ className?: string }>; label: string }
 > = {
   info: {
-    wrapper: "border-blue-200 bg-blue-50 text-blue-900 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-200",
+    wrapper:
+      "border-sky-400/30 bg-sky-500/10 text-sky-100",
     icon: Info,
     label: "Sugestão",
   },
   warn: {
-    wrapper: "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200",
+    wrapper:
+      "border-amber-400/30 bg-amber-500/10 text-amber-100",
     icon: AlertTriangle,
     label: "Atenção",
   },
   error: {
-    wrapper: "border-red-200 bg-red-50 text-red-900 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200",
+    wrapper:
+      "border-red-400/40 bg-red-500/10 text-red-100",
     icon: ShieldAlert,
     label: "Inconsistência",
   },
@@ -31,7 +34,8 @@ const SEVERITY_STYLE: Record<
 export function WarningsBanner({ warnings }: WarningsBannerProps) {
   if (warnings.length === 0) {
     return (
-      <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
+      <div className="flex items-center gap-2 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+        <CheckCircle2 className="h-4 w-4" />
         Nenhum alerta identificado pelo quality-check.
       </div>
     );
@@ -45,17 +49,20 @@ export function WarningsBanner({ warnings }: WarningsBannerProps) {
         return (
           <div
             key={`${warning.field}-${index}`}
-            className={`rounded-xl border px-4 py-3 text-sm ${style.wrapper}`}
+            className={`rounded-2xl border px-4 py-3 text-sm ${style.wrapper}`}
           >
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2.5">
               <Icon className="mt-0.5 h-4 w-4 shrink-0" />
               <div className="space-y-1">
-                <div className="font-medium">
-                  {style.label} · <code className="text-xs">{warning.field}</code>
+                <div className="font-semibold">
+                  {style.label}{" "}
+                  <code className="rounded bg-black/20 px-1.5 py-0.5 text-[11px] font-mono opacity-90">
+                    {warning.field}
+                  </code>
                 </div>
-                <p>{warning.message}</p>
+                <p className="text-[13px] leading-relaxed opacity-95">{warning.message}</p>
                 {warning.evidence && (
-                  <p className="text-xs italic opacity-80">“{warning.evidence}”</p>
+                  <p className="text-xs italic opacity-70">“{warning.evidence}”</p>
                 )}
               </div>
             </div>

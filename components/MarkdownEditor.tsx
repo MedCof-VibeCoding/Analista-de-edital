@@ -13,7 +13,7 @@ export function MarkdownEditor({ value, onChange, disabled }: MarkdownEditorProp
       onChange={(event) => onChange(event.target.value)}
       disabled={disabled}
       spellCheck={false}
-      className="h-[60vh] w-full resize-y rounded-lg border border-gray-300 bg-white p-4 font-mono text-sm leading-relaxed shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-950"
+      className="mc-focus-ring h-[60vh] w-full resize-y rounded-2xl border border-[var(--mc-border)] bg-black/40 p-4 font-mono text-sm leading-relaxed text-[var(--mc-text)] shadow-inner placeholder:text-[var(--mc-text-dim)] disabled:opacity-50"
     />
   );
 }

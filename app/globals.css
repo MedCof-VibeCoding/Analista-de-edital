@@ -1,25 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-}
+  color-scheme: dark;
+  --mc-bg: #0a0d14;
+  --mc-bg-gradient: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(230, 0, 38, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 10%, rgba(255, 60, 80, 0.08), transparent 60%),
+    #0a0d14;
+  --mc-surface: #14171f;
+  --mc-surface-raised: #1c2029;
+  --mc-border: rgba(255, 255, 255, 0.08);
+  --mc-border-strong: rgba(255, 255, 255, 0.14);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #fafafa;
-  }
+  --mc-primary: #e60026;
+  --mc-primary-hover: #ff1a3d;
+  --mc-primary-deep: #b8001e;
+  --mc-primary-soft: rgba(230, 0, 38, 0.16);
+
+  --mc-text: #f4f4f8;
+  --mc-text-muted: #9aa0b0;
+  --mc-text-dim: #6b7088;
+
+  --mc-success: #22c55e;
+  --mc-warn: #f59e0b;
+  --mc-error: #ef4444;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--mc-bg);
+  --color-foreground: var(--mc-text);
+  --color-mc-primary: var(--mc-primary);
+  --color-mc-surface: var(--mc-surface);
+  --color-mc-border: var(--mc-border);
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  border-color: var(--mc-border);
+}
+
+html,
+body {
+  background: var(--mc-bg);
+  color: var(--mc-text);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--mc-bg-gradient);
+  background-attachment: fixed;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "ss01" on, "cv11" on;
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--mc-primary);
+  color: white;
+}
+
+input,
+select,
+textarea {
+  color-scheme: dark;
+}
+
+@layer utilities {
+  .mc-surface {
+    background: var(--mc-surface);
+    border: 1px solid var(--mc-border);
+  }
+  .mc-surface-raised {
+    background: var(--mc-surface-raised);
+    border: 1px solid var(--mc-border-strong);
+  }
+  .mc-text-muted {
+    color: var(--mc-text-muted);
+  }
+  .mc-text-dim {
+    color: var(--mc-text-dim);
+  }
+  .mc-gradient-text {
+    background: linear-gradient(135deg, #ff4d6d 0%, #ff1a3d 40%, #e60026 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .mc-btn-primary {
+    background: linear-gradient(135deg, #ff1a3d 0%, #e60026 100%);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 8px 32px -8px rgba(230, 0, 38, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
+  }
+  .mc-btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 40px -8px rgba(230, 0, 38, 0.75),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    filter: brightness(1.05);
+  }
+  .mc-btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .mc-btn-ghost {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--mc-text);
+    border: 1px solid var(--mc-border-strong);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .mc-btn-ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .mc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--mc-primary-soft);
+    color: #ff7a8e;
+    border: 1px solid rgba(230, 0, 38, 0.3);
+  }
+  .mc-focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--mc-bg), 0 0 0 4px var(--mc-primary);
+  }
 }

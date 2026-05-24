@@ -35,15 +35,6 @@ export function renderMarkdown(input: RenderMarkdownInput): string {
     sections.push(renderVacanciesByInstitution(extraction));
   }
 
-  if (extraction.requirements.length > 0) {
-    sections.push(
-      [
-        "## Requisitos",
-        ...extraction.requirements.map((item) => `- ${item}`),
-      ].join("\n"),
-    );
-  }
-
   if (extraction.selectionProcess.trim().length > 0) {
     sections.push(["## Processo seletivo", extraction.selectionProcess].join("\n\n"));
   }
@@ -70,7 +61,7 @@ function renderVacanciesByInstitution(extraction: NoticeExtraction): string {
     if (groups.size > 1) {
       blocks.push(`### ${institution}`);
     }
-    blocks.push(renderVacanciesTable(vacancies, extraction.vacancyModalities));
+    blocks.push(renderVacanciesTable(vacancies));
   }
 
   return blocks.join("\n\n");
@@ -92,61 +83,25 @@ function groupVacanciesByInstitution(
   return groups;
 }
 
-function renderVacanciesTable(
-  vacancies: VacancyRow[],
-  modalities: string[],
-): string {
-  if (modalities.length === 0) {
-    return renderSimpleVacanciesTable(vacancies);
-  }
-
-  const header = ["Especialidade", ...modalities, "Total"];
+function renderVacanciesTable(vacancies: VacancyRow[]): string {
+  const hasAnyNotes = vacancies.some((v) => v.notes && v.notes.trim().length > 0);
+  const header = hasAnyNotes
+    ? ["Especialidade", "Total de Vagas", "Reserva", "Observações"]
+    : ["Especialidade", "Total de Vagas", "Reserva"];
   const separator = header.map(() => "---");
+
   const rows = vacancies.map((vacancy) => {
-    const lookup = buildModalityLookup(vacancy.counts);
-    const cells = [escapeCell(vacancy.specialty)];
-    for (const modality of modalities) {
-      const value = lookup.get(modality);
-      cells.push(value == null ? EMPTY_CELL : String(value));
-    }
-    cells.push(formatTotalCell(vacancy, modalities, lookup));
-    return cells;
+    const base = [
+      escapeCell(vacancy.specialty),
+      vacancy.total != null ? String(vacancy.total) : EMPTY_CELL,
+      vacancy.reserved != null ? String(vacancy.reserved) : EMPTY_CELL,
+    ];
+    return hasAnyNotes
+      ? [...base, vacancy.notes ? escapeCell(vacancy.notes) : EMPTY_CELL]
+      : base;
   });
 
   return buildMarkdownTable(header, separator, rows);
-}
-
-function buildModalityLookup(counts: VacancyRow["counts"]): Map<string, number | null> {
-  const map = new Map<string, number | null>();
-  for (const entry of counts) {
-    map.set(entry.modality, entry.count);
-  }
-  return map;
-}
-
-function renderSimpleVacanciesTable(vacancies: VacancyRow[]): string {
-  const header = ["Especialidade", "Vagas"];
-  const separator = header.map(() => "---");
-  const rows = vacancies.map((vacancy) => [
-    escapeCell(vacancy.specialty),
-    vacancy.total != null ? String(vacancy.total) : EMPTY_CELL,
-  ]);
-  return buildMarkdownTable(header, separator, rows);
-}
-
-function formatTotalCell(
-  vacancy: VacancyRow,
-  modalities: string[],
-  lookup: Map<string, number | null>,
-): string {
-  if (vacancy.total != null) return String(vacancy.total);
-
-  const values = modalities
-    .map((modality) => lookup.get(modality))
-    .filter((value): value is number => typeof value === "number");
-
-  if (values.length === 0) return EMPTY_CELL;
-  return String(values.reduce((sum, current) => sum + current, 0));
 }
 
 function renderScheduleTable(

@@ -10,8 +10,11 @@ export function buildSeoPrompt(input: SeoPromptInput): string {
     {
       blogTitle: input.extraction.blogTitle,
       institutions: input.extraction.institutions,
-      vacancyModalities: input.extraction.vacancyModalities,
       specialties: input.extraction.vacancies.map((v) => v.specialty),
+      totalVacancies: input.extraction.vacancies.reduce(
+        (sum, v) => sum + (v.total ?? 0),
+        0,
+      ),
     },
     null,
     2,

@@ -18,22 +18,6 @@ export const ScheduleItemSchema = z.object({
     .describe("Observação curta opcional. Use null se não houver."),
 });
 
-export const VacancyModalityCountSchema = z.object({
-  modality: z
-    .string()
-    .describe(
-      "Nome da modalidade. Deve corresponder EXATAMENTE a um dos itens de vacancyModalities.",
-    ),
-  count: z
-    .number()
-    .int()
-    .nonnegative()
-    .nullable()
-    .describe(
-      "Quantidade de vagas para esta modalidade nesta especialidade. Use null quando a modalidade não se aplica.",
-    ),
-});
-
 export const VacancyRowSchema = z.object({
   institution: z
     .string()
@@ -43,23 +27,26 @@ export const VacancyRowSchema = z.object({
   specialty: z
     .string()
     .describe("Nome da especialidade médica conforme o edital."),
-  counts: z
-    .array(VacancyModalityCountSchema)
-    .describe(
-      "Uma entrada por modalidade ofertada para esta especialidade. Inclua uma entrada por item de vacancyModalities (use count=null quando não se aplica).",
-    ),
   total: z
     .number()
     .int()
     .nonnegative()
     .nullable()
     .describe(
-      "Total de vagas para a especialidade conforme o edital. Use null se não vier explicitado.",
+      "Total de vagas ofertadas para a especialidade nesta instituição (incluindo as de reserva). Use null se não vier explicitado.",
+    ),
+  reserved: z
+    .number()
+    .int()
+    .nonnegative()
+    .nullable()
+    .describe(
+      "Vagas reservadas (PCD, cotas raciais/sociais, etc.) dentro do total. Use null se o edital não citar reserva e 0 quando o edital citar explicitamente que não há reserva.",
     ),
   notes: z
     .string()
     .nullable()
-    .describe("Observação curta sobre a vaga. Use null se não houver."),
+    .describe("Observação curta sobre a vaga (ex.: tipo de reserva). Use null se não houver."),
 });
 
 export const NoticeExtractionSchema = z.object({
@@ -74,22 +61,14 @@ export const NoticeExtractionSchema = z.object({
   institutions: z
     .array(z.string())
     .describe("Instituições responsáveis pelo edital."),
-  requirements: z
-    .array(z.string())
-    .describe("Requisitos principais para os candidatos."),
   selectionProcess: z
     .string()
     .describe(
       "Resumo do processo seletivo: provas, fases, critérios de classificação.",
     ),
-  vacancyModalities: z
-    .array(z.string())
-    .describe(
-      "Lista canônica e normalizada das modalidades de vaga (ex.: ['Acesso Direto', 'Pré-requisito R1']).",
-    ),
   vacancies: z
     .array(VacancyRowSchema)
-    .describe("Uma entrada por especialidade ofertada no edital."),
+    .describe("Uma entrada por par (instituição, especialidade) ofertado no edital."),
   schedule: z
     .array(ScheduleItemSchema)
     .describe("Cronograma do processo seletivo na ordem do edital."),

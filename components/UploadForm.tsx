@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { FileUp, Loader2, Sparkles } from "lucide-react";
+import { FileUp, Loader2, Sparkles, Wand2 } from "lucide-react";
 import type { ConfigResponse, GenerateResponse, ProviderName } from "@/lib/types/api";
 
 const PROVIDER_LABELS: Record<ProviderName, string> = {
@@ -83,83 +83,94 @@ export function UploadForm({ onGenerated, busy, setBusy }: UploadFormProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950"
+      className="mc-surface relative overflow-hidden rounded-3xl p-6 shadow-[0_20px_60px_-30px_rgba(230,0,38,0.35)] lg:p-8"
     >
-      <div className="flex items-center gap-2">
-        <Sparkles className="h-5 w-5 text-indigo-500" />
-        <h2 className="text-lg font-semibold">Gerar post a partir do edital</h2>
-      </div>
-      <p className="mt-1 text-sm text-gray-500">
-        Envie o PDF do edital de residência médica e escolha o provedor de IA.
-      </p>
+      <div className="pointer-events-none absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[#e60026]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-[#ff1a3d]/10 blur-3xl" />
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-[1fr,200px]">
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium">PDF do edital</span>
-          <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 px-4 py-3 dark:border-gray-700">
-            <FileUp className="h-4 w-4 text-gray-500" />
-            <input
-              type="file"
-              accept="application/pdf"
-              {...register("file", { required: true })}
-              className="block w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-950 dark:file:text-indigo-300"
-              disabled={busy}
-            />
-          </div>
-          {fileName && (
-            <span className="mt-1 block text-xs text-gray-500">Selecionado: {fileName}</span>
-          )}
-          {formState.errors.file && (
-            <span className="mt-1 block text-xs text-red-500">Selecione um PDF.</span>
-          )}
-        </label>
+      <div className="relative">
+        <div className="flex items-center gap-2">
+          <Wand2 className="h-5 w-5 text-[#ff4d6d]" />
+          <h2 className="text-lg font-bold tracking-tight">Gerar post a partir do edital</h2>
+        </div>
+        <p className="mt-1 text-sm mc-text-muted">
+          Envie o PDF do edital de residência médica e escolha o provedor de IA.
+        </p>
 
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium">Provedor</span>
-          <select
-            {...register("provider", { required: true })}
-            disabled={busy || loadingConfig}
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-          >
-            {(config?.allProviders ?? (["openai", "gemini", "deepseek"] as ProviderName[])).map(
-              (provider) => {
-                const available = config?.availableProviders.includes(provider) ?? false;
-                const model = config?.models?.[provider];
-                return (
-                  <option
-                    key={provider}
-                    value={provider}
-                    disabled={!available}
-                    title={!available ? "API key não configurada" : undefined}
-                  >
-                    {PROVIDER_LABELS[provider]}
-                    {model ? ` · ${model}` : ""}
-                    {!available ? " (sem chave)" : ""}
-                  </option>
-                );
-              },
+        <div className="mt-6 grid gap-4 md:grid-cols-[1fr,220px]">
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider mc-text-muted">
+              PDF do edital
+            </span>
+            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-[var(--mc-border-strong)] bg-white/[0.02] px-4 py-3 transition-colors hover:border-[#ff4d6d]/60">
+              <FileUp className="h-4 w-4 text-[#ff4d6d]" />
+              <input
+                type="file"
+                accept="application/pdf"
+                {...register("file", { required: true })}
+                className="block w-full text-sm text-[var(--mc-text)] file:mr-3 file:rounded-lg file:border-0 file:bg-white/5 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-white hover:file:bg-white/10"
+                disabled={busy}
+              />
+            </div>
+            {fileName && (
+              <span className="mt-1.5 block text-xs mc-text-dim">{fileName}</span>
             )}
-          </select>
-        </label>
-      </div>
+            {formState.errors.file && (
+              <span className="mt-1.5 block text-xs text-[var(--mc-error)]">
+                Selecione um PDF.
+              </span>
+            )}
+          </label>
 
-      <button
-        type="submit"
-        disabled={busy || loadingConfig}
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {busy ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Processando…
-          </>
-        ) : (
-          <>
-            <Sparkles className="h-4 w-4" />
-            Gerar post
-          </>
-        )}
-      </button>
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider mc-text-muted">
+              Provedor
+            </span>
+            <select
+              {...register("provider", { required: true })}
+              disabled={busy || loadingConfig}
+              className="mc-focus-ring w-full appearance-none rounded-2xl border border-[var(--mc-border-strong)] bg-white/[0.03] px-3 py-2.5 text-sm font-medium"
+            >
+              {(config?.allProviders ?? (["openai", "gemini", "deepseek"] as ProviderName[])).map(
+                (provider) => {
+                  const available = config?.availableProviders.includes(provider) ?? false;
+                  const model = config?.models?.[provider];
+                  return (
+                    <option
+                      key={provider}
+                      value={provider}
+                      disabled={!available}
+                      title={!available ? "API key não configurada" : undefined}
+                    >
+                      {PROVIDER_LABELS[provider]}
+                      {model ? ` · ${model}` : ""}
+                      {!available ? " (sem chave)" : ""}
+                    </option>
+                  );
+                },
+              )}
+            </select>
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          disabled={busy || loadingConfig}
+          className="mc-btn-primary mc-focus-ring mt-6 inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm"
+        >
+          {busy ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Processando…
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4" />
+              Gerar post
+            </>
+          )}
+        </button>
+      </div>
     </form>
   );
 }

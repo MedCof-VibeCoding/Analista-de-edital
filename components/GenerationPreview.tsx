@@ -74,38 +74,45 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
   };
 
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-semibold">Preview do post</h2>
-          <p className="mt-1 text-xs text-gray-500">
-            Job <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-900">{result.jobId}</code>
-            {" · "}
-            <span className="inline-flex items-center gap-1 rounded bg-indigo-50 px-2 py-0.5 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-200">
+    <section className="mc-surface relative overflow-hidden rounded-3xl p-6 shadow-[0_20px_60px_-30px_rgba(230,0,38,0.3)] lg:p-8">
+      <div className="pointer-events-none absolute -top-40 -left-20 h-72 w-72 rounded-full bg-[#e60026]/12 blur-3xl" />
+
+      <header className="relative flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h2 className="text-lg font-bold tracking-tight">Preview do post</h2>
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="rounded-md border border-[var(--mc-border)] bg-white/[0.04] px-2 py-1 font-mono mc-text-muted">
+              job {result.jobId}
+            </span>
+            <span className="mc-pill">
               {result.providerUsed} · {result.modelUsed}
             </span>
             {errorCount > 0 && (
-              <span className="ml-2 inline-flex items-center gap-1 rounded bg-red-50 px-2 py-0.5 text-red-700 dark:bg-red-950 dark:text-red-200">
+              <span className="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-red-300">
                 <AlertOctagon className="h-3 w-3" />
-                {errorCount} inconsistência(s)
+                {errorCount} inconsistência{errorCount > 1 ? "s" : ""}
               </span>
             )}
-          </p>
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={() => downloadFile(`${result.data.seo.slug || result.jobId}.md`, markdown, "text/markdown")}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-900"
+            onClick={() =>
+              downloadFile(`${result.data.seo.slug || result.jobId}.md`, markdown, "text/markdown")
+            }
+            className="mc-btn-ghost mc-focus-ring inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm"
           >
             <Download className="h-4 w-4" />
             .md
           </button>
           <button
             type="button"
-            onClick={() => downloadFile(`${result.data.seo.slug || result.jobId}.html`, html, "text/html")}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-900"
+            onClick={() =>
+              downloadFile(`${result.data.seo.slug || result.jobId}.html`, html, "text/html")
+            }
+            className="mc-btn-ghost mc-focus-ring inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm"
           >
             <Download className="h-4 w-4" />
             .html
@@ -114,7 +121,7 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
             type="button"
             onClick={handleSave}
             disabled={!isDirty || saving}
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="mc-btn-primary mc-focus-ring inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-sm"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Salvar versão
@@ -122,11 +129,11 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
         </div>
       </header>
 
-      <div className="mt-4">
+      <div className="relative mt-5">
         <WarningsBanner warnings={result.warnings} />
       </div>
 
-      <nav className="mt-6 flex gap-1 border-b border-gray-200 dark:border-gray-800">
+      <nav className="relative mt-6 flex gap-1 border-b border-[var(--mc-border)]">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -136,13 +143,13 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
               onClick={() => setActiveTab(tab.id)}
               className={
                 isActive
-                  ? "border-b-2 border-indigo-600 px-3 py-2 text-sm font-medium text-indigo-700 dark:text-indigo-300"
-                  : "border-b-2 border-transparent px-3 py-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                  ? "border-b-2 border-[var(--mc-primary)] px-4 py-2.5 text-sm font-semibold text-white"
+                  : "border-b-2 border-transparent px-4 py-2.5 text-sm font-medium mc-text-muted hover:text-white"
               }
             >
               {tab.label}
               {tab.id === "warnings" && result.warnings.length > 0 && (
-                <span className="ml-1 rounded-full bg-gray-100 px-1.5 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                <span className="ml-1.5 rounded-full bg-white/10 px-1.5 text-[10px] font-semibold text-white/80">
                   {result.warnings.length}
                 </span>
               )}
@@ -151,13 +158,13 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
         })}
       </nav>
 
-      <div className="mt-4">
+      <div className="relative mt-5">
         {activeTab === "markdown" && (
           <MarkdownEditor value={markdown} onChange={setMarkdown} disabled={saving} />
         )}
         {activeTab === "html" && <HtmlPreview html={html} />}
         {activeTab === "data" && (
-          <pre className="h-[60vh] overflow-auto rounded-lg border border-gray-300 bg-gray-50 p-4 text-xs leading-relaxed dark:border-gray-700 dark:bg-gray-950">
+          <pre className="h-[60vh] overflow-auto rounded-2xl border border-[var(--mc-border)] bg-black/40 p-4 font-mono text-xs leading-relaxed text-[var(--mc-text)]">
             {JSON.stringify(result.data, null, 2)}
           </pre>
         )}

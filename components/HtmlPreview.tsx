@@ -7,17 +7,35 @@ interface HtmlPreviewProps {
 }
 
 const BASE_STYLES = `
-  body { font-family: ui-sans-serif, system-ui, sans-serif; padding: 24px; color: #0a0a0a; background: #fff; line-height: 1.6; }
-  h1, h2, h3 { color: #111; margin-top: 1.6em; }
-  h1 { font-size: 1.875rem; }
-  h2 { font-size: 1.4rem; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+  :root { color-scheme: light; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 32px;
+    color: #111827;
+    background: #ffffff;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  h1, h2, h3 { color: #0a0d14; margin-top: 1.6em; letter-spacing: -0.01em; }
+  h1 { font-size: 1.9rem; font-weight: 800; }
+  h2 { font-size: 1.35rem; font-weight: 700; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.35em; }
+  h3 { font-size: 1.1rem; font-weight: 700; color: #e60026; }
   table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.92rem; }
-  th, td { border: 1px solid #d4d4d8; padding: 8px 12px; text-align: left; vertical-align: top; }
-  th { background: #f4f4f5; font-weight: 600; }
-  blockquote { border-left: 4px solid #6366f1; background: #f5f3ff; margin: 1em 0; padding: 0.6em 1em; color: #3730a3; }
-  code { background: #f4f4f5; padding: 2px 4px; border-radius: 4px; font-size: 0.9em; }
+  th, td { border: 1px solid #e5e7eb; padding: 10px 14px; text-align: left; vertical-align: top; }
+  th { background: #fff1f3; font-weight: 700; color: #8c0019; }
+  blockquote {
+    border-left: 4px solid #e60026;
+    background: linear-gradient(90deg, rgba(230,0,38,0.06), transparent);
+    margin: 1em 0;
+    padding: 0.7em 1.1em;
+    color: #4b5563;
+    border-radius: 0 8px 8px 0;
+  }
+  blockquote strong { color: #8c0019; }
+  code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #b8001e; }
   ul, ol { padding-left: 1.4em; }
-  a { color: #4f46e5; text-decoration: underline; }
+  a { color: #e60026; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 2px; }
+  hr { border: none; border-top: 1px solid #f1f5f9; margin: 2em 0; }
 `;
 
 export function HtmlPreview({ html }: HtmlPreviewProps) {
@@ -39,7 +57,7 @@ export function HtmlPreview({ html }: HtmlPreviewProps) {
       ref={iframeRef}
       title="Preview HTML"
       sandbox="allow-same-origin"
-      className="h-[60vh] w-full rounded-lg border border-gray-300 bg-white dark:border-gray-700"
+      className="h-[60vh] w-full rounded-2xl border border-[var(--mc-border)] bg-white"
     />
   );
 }

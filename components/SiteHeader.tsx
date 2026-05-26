@@ -21,28 +21,24 @@ const EXTERNAL_LINKS = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--mc-border)] bg-[rgba(10,13,20,0.78)] backdrop-blur-lg">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 lg:px-8">
-        <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 border-b border-[var(--mc-border)] bg-[rgba(10,13,20,0.85)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 lg:px-8">
+        <div className="flex items-center gap-2.5">
           <Image
             src="/medcof-logo.png"
             alt="MedCof"
-            width={40}
-            height={40}
+            width={32}
+            height={32}
             priority
-            className="h-10 w-10 rounded-lg"
+            className="h-8 w-8 rounded-md"
           />
-          <div className="leading-tight">
-            <div className="text-base font-extrabold tracking-tight">
-              Med<span className="mc-gradient-text">Cof</span>
-            </div>
-            <div className="text-[11px] uppercase tracking-[0.14em] mc-text-dim">
-              Editor de Editais
-            </div>
-          </div>
+          <span className="text-sm font-bold tracking-tight">
+            Med<span className="mc-gradient-text">Cof</span>
+          </span>
+          <span className="mc-pill hidden sm:inline-flex">Beta</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-1 items-center justify-end gap-1.5">
           {EXTERNAL_LINKS.map(({ href, label, shortLabel, title, Icon }) => (
             <a
               key={href}
@@ -50,15 +46,16 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               title={title}
-              className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--mc-primary)]/40 bg-[var(--mc-primary-soft)] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[var(--mc-primary)]/30 hover:border-[var(--mc-primary)]"
+              className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium mc-text-muted transition-colors hover:bg-white/[0.05] hover:text-white"
             >
-              <Icon className="h-3.5 w-3.5 text-[#ff4d6d]" />
+              <Icon className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{label}</span>
               <span className="sm:hidden">{shortLabel}</span>
             </a>
           ))}
-          <span className="mc-pill hidden md:inline-flex">Beta</span>
-          <LogoutButton />
+          <div className="ml-1 border-l border-[var(--mc-border)] pl-2">
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </header>

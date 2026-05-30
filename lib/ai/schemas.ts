@@ -121,6 +121,29 @@ export const QualityReportSchema = z.object({
 export type QualityReport = z.infer<typeof QualityReportSchema>;
 export type QualityWarning = z.infer<typeof QualityWarningSchema>;
 
+/* ---------- Social media output ---------- */
+
+export const SocialOutputSchema = z.object({
+  reels: z
+    .string()
+    .describe("Roteiro narrado completo para Reels do Instagram (30–60 segundos). Inclui gancho, desenvolvimento e CTA."),
+  carousel: z
+    .array(z.string())
+    .min(5)
+    .max(8)
+    .describe("Texto de cada slide do carrossel do Instagram (5 a 8 slides). Cada item é o conteúdo de um slide."),
+  caption: z
+    .string()
+    .describe("Legenda completa para post de feed do Instagram: abertura impactante, contexto, emojis e hashtags relevantes."),
+  thread: z
+    .array(z.string())
+    .min(4)
+    .max(8)
+    .describe("Sequência de posts para thread no X/Twitter. Cada item é um tweet (máx. 280 caracteres)."),
+});
+
+export type SocialOutput = z.infer<typeof SocialOutputSchema>;
+
 /* ---------- Aggregate ---------- */
 
 export interface AiPipelineResult {

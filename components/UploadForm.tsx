@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { FileUp, Loader2, Sparkles, Wand2 } from "lucide-react";
+import { FileUp, Loader2, Sparkles } from "lucide-react";
 import type { ConfigResponse, GenerateResponse, ProviderName } from "@/lib/types/api";
 
 const PROVIDER_LABELS: Record<ProviderName, string> = {
@@ -83,38 +83,43 @@ export function UploadForm({ onGenerated, busy, setBusy }: UploadFormProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="mc-surface relative overflow-hidden rounded-3xl p-6 shadow-[0_20px_60px_-30px_rgba(230,0,38,0.35)] lg:p-8"
+      className="relative overflow-hidden rounded-2xl border border-[var(--mc-border-red)] bg-[var(--mc-primary-soft)] p-5 lg:p-6"
     >
-      <div className="pointer-events-none absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[#e60026]/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-[#ff1a3d]/10 blur-3xl" />
+      {/* Ambient orbs */}
+      <div className="pointer-events-none absolute -top-16 -right-12 h-40 w-40 rounded-full bg-[var(--mc-primary)]/6 blur-[48px]" />
+      <div className="pointer-events-none absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-[var(--mc-primary)]/4 blur-[56px]" />
+      {/* Top line */}
+      <div className="pointer-events-none absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-[var(--mc-primary)]/25 to-transparent" />
 
       <div className="relative">
-        <div className="flex items-center gap-2">
-          <Wand2 className="h-5 w-5 text-[#ff4d6d]" />
-          <h2 className="text-lg font-bold tracking-tight">Gerar post a partir do edital</h2>
-        </div>
-        <p className="mt-1 text-sm mc-text-muted">
-          Envie o PDF do edital de residência médica e escolha o provedor de IA.
-        </p>
-
-        <div className="mt-6 grid gap-4 md:grid-cols-[1fr,220px]">
+        <div className="grid gap-3 md:grid-cols-[1fr,200px]">
+          {/* Upload zone */}
           <label className="block">
-            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider mc-text-muted">
-              PDF do edital
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-widest mc-text-muted">
+              PDF do Edital
             </span>
-            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-[var(--mc-border-strong)] bg-white/[0.02] px-4 py-3 transition-colors hover:border-[#ff4d6d]/60">
-              <FileUp className="h-4 w-4 text-[#ff4d6d]" />
+            <div className="mc-upload-zone flex min-h-[72px] items-center gap-4 rounded-xl border border-dashed border-[var(--mc-border-red)] bg-[var(--mc-primary-soft)] px-4 py-3.5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)]">
+                <FileUp className="h-4.5 w-4.5 text-[var(--mc-primary)]" />
+              </div>
+              <div className="min-w-0 flex-1">
+                {fileName ? (
+                  <p className="truncate text-sm font-medium text-[var(--mc-text)]">{fileName}</p>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium text-[var(--mc-text-muted)]">Selecione o PDF do edital</p>
+                    <p className="text-[11px] mc-text-dim">Arraste e solte ou clique para navegar</p>
+                  </>
+                )}
+              </div>
               <input
                 type="file"
                 accept="application/pdf"
                 {...register("file", { required: true })}
-                className="block w-full text-sm text-[var(--mc-text)] file:mr-3 file:rounded-lg file:border-0 file:bg-white/5 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-white hover:file:bg-white/10"
+                className="sr-only"
                 disabled={busy}
               />
             </div>
-            {fileName && (
-              <span className="mt-1.5 block text-xs mc-text-dim">{fileName}</span>
-            )}
             {formState.errors.file && (
               <span className="mt-1.5 block text-xs text-[var(--mc-error)]">
                 Selecione um PDF.
@@ -122,14 +127,15 @@ export function UploadForm({ onGenerated, busy, setBusy }: UploadFormProps) {
             )}
           </label>
 
+          {/* Provider selector */}
           <label className="block">
-            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider mc-text-muted">
-              Provedor
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-widest mc-text-muted">
+              Provedor IA
             </span>
             <select
               {...register("provider", { required: true })}
               disabled={busy || loadingConfig}
-              className="mc-focus-ring w-full appearance-none rounded-2xl border border-[var(--mc-border-strong)] bg-white/[0.03] px-3 py-2.5 text-sm font-medium"
+              className="mc-focus-ring h-[72px] w-full appearance-none rounded-xl border border-[var(--mc-border-red)] bg-[var(--mc-primary-soft)] px-3.5 text-sm font-medium text-[var(--mc-text)] transition-colors hover:border-[var(--mc-primary-border)]"
             >
               {(config?.allProviders ?? (["openai", "gemini", "deepseek"] as ProviderName[])).map(
                 (provider) => {
@@ -153,20 +159,21 @@ export function UploadForm({ onGenerated, busy, setBusy }: UploadFormProps) {
           </label>
         </div>
 
+        {/* CTA */}
         <button
           type="submit"
           disabled={busy || loadingConfig}
-          className="mc-btn-primary mc-focus-ring mt-6 inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm"
+          className="mc-btn-primary mc-focus-ring mt-4 w-full inline-flex items-center justify-center gap-2.5 rounded-xl px-6 py-3 text-sm font-semibold tracking-wide"
         >
           {busy ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Processando…
+              Processando edital…
             </>
           ) : (
             <>
               <Sparkles className="h-4 w-4" />
-              Gerar post
+              Gerar post com IA
             </>
           )}
         </button>

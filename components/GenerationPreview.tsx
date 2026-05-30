@@ -74,21 +74,21 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
   };
 
   return (
-    <section className="mc-surface relative overflow-hidden rounded-3xl p-6 shadow-[0_20px_60px_-30px_rgba(230,0,38,0.3)] lg:p-8">
-      <div className="pointer-events-none absolute -top-40 -left-20 h-72 w-72 rounded-full bg-[#e60026]/12 blur-3xl" />
+    <section className="mc-surface relative overflow-hidden rounded-3xl p-6 shadow-[var(--mc-shadow-soft)] lg:p-8">
+      <div className="pointer-events-none absolute -top-40 -left-20 h-72 w-72 rounded-full bg-[var(--mc-primary)]/5 blur-[80px]" />
 
       <header className="relative flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
           <h2 className="text-lg font-bold tracking-tight">Preview do post</h2>
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="rounded-md border border-[var(--mc-border)] bg-white/[0.04] px-2 py-1 font-mono mc-text-muted">
+            <span className="rounded-md border border-[var(--mc-border)] bg-white/70 px-2 py-1 font-mono mc-text-muted">
               job {result.jobId}
             </span>
             <span className="mc-pill">
               {result.providerUsed} · {result.modelUsed}
             </span>
             {errorCount > 0 && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-red-300">
+              <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-red-700">
                 <AlertOctagon className="h-3 w-3" />
                 {errorCount} inconsistência{errorCount > 1 ? "s" : ""}
               </span>
@@ -143,13 +143,13 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
               onClick={() => setActiveTab(tab.id)}
               className={
                 isActive
-                  ? "border-b-2 border-[var(--mc-primary)] px-4 py-2.5 text-sm font-semibold text-white"
-                  : "border-b-2 border-transparent px-4 py-2.5 text-sm font-medium mc-text-muted hover:text-white"
+                  ? "border-b-2 border-[var(--mc-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--mc-text)]"
+                  : "border-b-2 border-transparent px-4 py-2.5 text-sm font-medium mc-text-muted hover:text-[var(--mc-text)]"
               }
             >
               {tab.label}
               {tab.id === "warnings" && result.warnings.length > 0 && (
-                <span className="ml-1.5 rounded-full bg-white/10 px-1.5 text-[10px] font-semibold text-white/80">
+                <span className="ml-1.5 rounded-full bg-[var(--mc-primary-soft)] px-1.5 text-[10px] font-semibold text-[var(--mc-primary-light)]">
                   {result.warnings.length}
                 </span>
               )}
@@ -164,7 +164,7 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
         )}
         {activeTab === "html" && <HtmlPreview html={html} />}
         {activeTab === "data" && (
-          <pre className="h-[60vh] overflow-auto rounded-2xl border border-[var(--mc-border)] bg-black/40 p-4 font-mono text-xs leading-relaxed text-[var(--mc-text)]">
+          <pre className="h-[60vh] overflow-auto rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] p-4 font-mono text-xs leading-relaxed text-[var(--mc-text)]">
             {JSON.stringify(result.data, null, 2)}
           </pre>
         )}

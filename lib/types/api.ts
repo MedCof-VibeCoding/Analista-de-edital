@@ -4,6 +4,7 @@ import type {
   NoticeExtraction,
   QualityWarning,
   SeoMeta,
+  SocialOutput,
 } from "@/lib/ai/schemas";
 
 export type { ProviderName };
@@ -39,4 +40,13 @@ export interface SavedJobResponse {
   html: string;
 }
 
-export type { NoticeExtraction, QualityWarning, SeoMeta };
+export interface SocialResponse {
+  reels: string;
+  carousel: string[];
+  caption: string;
+  thread: string[];
+  providerUsed: ProviderName;
+  modelUsed: string;
+}
+
+export type { NoticeExtraction, QualityWarning, SeoMeta, SocialOutput };

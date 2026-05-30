@@ -18,112 +18,103 @@ import {
 } from "lucide-react";
 import { GenerationPreview } from "@/components/GenerationPreview";
 import { UploadForm } from "@/components/UploadForm";
-import type { GenerateResponse } from "@/lib/types/api";
+import { SocialForm } from "@/components/SocialForm";
+import { SocialPreview } from "@/components/SocialPreview";
+import type { GenerateResponse, SocialResponse } from "@/lib/types/api";
 
 // ---------------------------------------------------------------------------
-// Editorial blog-post preview shown on the hero right panel
+// Hero mockup — editorial blog-post preview on the right panel
 // ---------------------------------------------------------------------------
 function HeroMockup() {
   return (
-    <div className="group mc-glass mc-glow-red relative overflow-hidden select-none transition-transform duration-300 hover:scale-[1.01]">
-      <div className="pointer-events-none absolute -top-20 -right-20 h-56 w-56 rounded-full bg-[#e60026]/12 blur-3xl" />
-
-      {/* Browser address bar */}
-      <div className="flex items-center gap-2 border-b border-[var(--mc-border)] bg-white/[0.02] px-4 py-2.5">
-        <Globe className="h-3 w-3 shrink-0 mc-text-dim" />
-        <span className="flex-1 truncate font-mono text-[10px] mc-text-dim">
-          grupomedcof.com.br/blog/
-          <span className="text-white/60">edital-residencia-medica-sirio-libanes</span>
-        </span>
-        <span className="flex items-center gap-1 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[9px] font-semibold text-[#4ade80]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
-          Publicado
-        </span>
-      </div>
-
-      {/* Article body */}
-      <div className="space-y-4 p-5 pb-6">
-        {/* AI badge */}
-        <div className="flex items-center gap-1.5">
-          <span className="mc-pill">
-            <Sparkles className="h-2.5 w-2.5" />
-            Post gerado com IA
-          </span>
-        </div>
-
-        {/* Institution + Headline */}
-        <div className="space-y-2">
-          <p className="text-[10px] uppercase tracking-widest mc-text-dim">
-            Hospital Sírio-Libanês&nbsp;&nbsp;•&nbsp;&nbsp;São Paulo e Brasília
-          </p>
-          <h3 className="text-[15px] font-extrabold leading-tight tracking-tight">
-            <span className="mc-gradient-text">Residência Médica Sírio-Libanês 2026/2027:</span>
-            <br />
-            <span className="text-white/90">
-              edital publicado com vagas em acesso direto e pré-requisito
-            </span>
-          </h3>
-          <p className="text-xs mc-text-muted leading-relaxed">
-            O Hospital Sírio-Libanês divulgou o edital de residência médica 2026
-            com vagas para acesso direto, pré-requisito e ano adicional em São
-            Paulo e Brasília.
-          </p>
-        </div>
-
-        {/* Vagas table */}
-        <div className="overflow-hidden rounded-xl border border-[var(--mc-border)]">
-          <div className="grid grid-cols-2 border-b border-[var(--mc-border)] bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wide mc-text-dim">
-            <span>Especialidade</span>
-            <span className="text-right">Vagas</span>
-          </div>
-          {[
-            ["Anestesiologia", "9"],
-            ["Clínica Médica", "9"],
-            ["Med. Intensiva", "6"],
-            ["Pediatria", "6"],
-          ].map(([esp, vagas]) => (
-            <div
-              key={esp}
-              className="grid grid-cols-2 border-b border-[var(--mc-border)]/40 px-3 py-2 text-xs last:border-0"
-            >
-              <span className="text-white/80">{esp}</span>
-              <span className="text-right font-semibold text-[#86efac]">{vagas}</span>
+    <div className="relative w-full select-none">
+      <div className="pointer-events-none absolute inset-0 translate-x-3 translate-y-4 rounded-[1.5rem] bg-[var(--mc-primary)]/8 blur-2xl" />
+      <div className="mc-float relative">
+        <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[var(--mc-primary)]/5 blur-[52px]" />
+        <div className="mc-glass relative overflow-hidden">
+          <div className="pointer-events-none absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--mc-primary)]/20 to-transparent" />
+          {/* Browser chrome */}
+          <div className="flex items-center gap-2.5 border-b border-[var(--mc-border)] bg-[var(--mc-primary-soft)] px-4 py-2.5">
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-[var(--mc-primary)]/20" />
+              <div className="h-2 w-2 rounded-full bg-[var(--mc-primary)]/20" />
+              <div className="h-2 w-2 rounded-full bg-[var(--mc-primary)]/20" />
             </div>
-          ))}
-        </div>
-
-        {/* Cronograma chips */}
-        <div className="space-y-1.5">
-          <p className="text-[10px] font-semibold uppercase tracking-wider mc-text-dim">
-            Cronograma
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {[
-              { label: "Inscrições", date: "01/06 → 14/08" },
-              { label: "Prova obj.", date: "27/09" },
-            ].map(({ label, date }) => (
-              <div
-                key={label}
-                className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/[0.03] px-2.5 py-1 text-[10px]"
-              >
-                <Calendar className="h-2.5 w-2.5 text-[#ff4d6d]" />
-                <span className="mc-text-muted">{label}</span>
-                <span className="font-semibold text-white/70">{date}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Metric pills */}
-        <div className="flex flex-wrap gap-2 border-t border-[var(--mc-border)] pt-3">
-          {["Acesso direto", "Pré-requisito", "SEO otimizado"].map((metric) => (
-            <span
-              key={metric}
-              className="rounded-full bg-[var(--mc-primary-soft)] px-2.5 py-0.5 text-[10px] font-semibold text-[#ff7a8e]"
-            >
-              {metric}
+            <Globe className="ml-1 h-3 w-3 shrink-0 mc-text-dim" />
+            <span className="flex-1 truncate font-mono text-[10px] mc-text-dim">
+              grupomedcof.com.br/blog/
+              <span className="mc-text-muted">edital-residencia-medica-sirio-libanes</span>
             </span>
-          ))}
+            <span className="flex items-center gap-1.5 rounded-full bg-[#dcfce7] px-2.5 py-0.5 text-[9px] font-semibold text-[#166534]">
+              <span className="mc-pulse-dot h-1.5 w-1.5" style={{ background: "#166534", animation: "mc-pulse-dot 2.5s ease-in-out infinite" }} />
+              Publicado
+            </span>
+          </div>
+          {/* Article body */}
+          <div className="space-y-4 p-5 pb-6">
+            <div className="flex items-center gap-1.5">
+              <span className="mc-pill">
+                <Sparkles className="h-2.5 w-2.5" />
+                Post gerado com IA
+              </span>
+            </div>
+            <div className="space-y-2">
+              <p className="text-[10px] uppercase tracking-widest mc-text-dim">
+                Hospital Sírio-Libanês&nbsp;&nbsp;•&nbsp;&nbsp;São Paulo e Brasília
+              </p>
+              <h3 className="text-[15px] font-extrabold leading-tight tracking-tight">
+                <span className="mc-gradient-text">Residência Médica Sírio-Libanês 2026/2027:</span>
+                <br />
+                <span className="text-[var(--mc-text)]">
+                  edital publicado com vagas em acesso direto e pré-requisito
+                </span>
+              </h3>
+              <p className="text-xs mc-text-muted leading-relaxed">
+                O Hospital Sírio-Libanês divulgou o edital de residência médica 2026
+                com vagas para acesso direto, pré-requisito e ano adicional em São
+                Paulo e Brasília.
+              </p>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-[var(--mc-border)]">
+              <div className="grid grid-cols-2 border-b border-[var(--mc-border)] bg-[var(--mc-primary-soft)] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wide mc-text-dim">
+                <span>Especialidade</span>
+                <span className="text-right">Vagas</span>
+              </div>
+              {[
+                ["Anestesiologia", "9"],
+                ["Clínica Médica", "9"],
+                ["Med. Intensiva", "6"],
+                ["Pediatria", "6"],
+              ].map(([esp, vagas]) => (
+                <div key={esp} className="grid grid-cols-2 border-b border-[var(--mc-border)]/40 px-3 py-2 text-xs last:border-0">
+                  <span className="text-[var(--mc-text)]">{esp}</span>
+                  <span className="text-right font-semibold text-[#166534]">{vagas}</span>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold uppercase tracking-wider mc-text-dim">Cronograma</p>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { label: "Inscrições", date: "01/06 → 14/08" },
+                  { label: "Prova obj.", date: "27/09" },
+                ].map(({ label, date }) => (
+                  <div key={label} className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/60 px-2.5 py-1 text-[10px]">
+                    <Calendar className="h-2.5 w-2.5 text-[var(--mc-primary)]" />
+                    <span className="mc-text-muted">{label}</span>
+                    <span className="font-semibold mc-text-muted">{date}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 border-t border-[var(--mc-border)] pt-3">
+              {["Acesso direto", "Pré-requisito", "SEO otimizado"].map((metric) => (
+                <span key={metric} className="rounded-full bg-[var(--mc-primary-soft)] px-2.5 py-0.5 text-[10px] font-semibold text-[var(--mc-primary-light)]">
+                  {metric}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -213,69 +204,71 @@ const AFTER = [
 export default function HomePage() {
   const [result, setResult] = useState<GenerateResponse | null>(null);
   const [busy, setBusy] = useState(false);
+  const [socialResult, setSocialResult] = useState<SocialResponse | null>(null);
+  const [socialBusy, setSocialBusy] = useState(false);
 
   return (
     <main className="mx-auto max-w-6xl px-4 lg:px-8">
 
       {/* ------------------------------------------------------------------ */}
-      {/* HERO — split screen                                                  */}
+      {/* HERO                                                                 */}
       {/* ------------------------------------------------------------------ */}
       <section
         aria-labelledby="hero-heading"
-        className="grid grid-cols-1 gap-10 py-12 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-16"
+        className="grid grid-cols-1 gap-8 py-16 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-16 lg:py-24"
       >
-        {/* LEFT — copy + form */}
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--mc-border-strong)] bg-white/[0.03] px-3 py-1 text-xs font-medium mc-text-muted">
-            <Sparkles className="h-3.5 w-3.5 text-[#ff4d6d]" />
-            Pipeline com OpenAI · Gemini · DeepSeek
-          </div>
+        {/* LEFT — copy */}
+        <div className="space-y-7">
+          <h1
+            id="hero-heading"
+            className="text-3xl font-black leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
+          >
+            Transforme{" "}
+            <span className="font-black text-[#02178a]">editais médicos</span>{" "}
+            em{" "}
+            <em className="font-black not-italic text-[#ad1f1f]">notícia</em>{" "}
+            em minutos.
+          </h1>
 
-          <div className="space-y-3">
-            <h1
-              id="hero-heading"
-              className="text-4xl font-extrabold leading-[1.08] tracking-tight lg:text-5xl"
-            >
-              Transforme editais
-              <br />
-              <span className="mc-gradient-text">em posts com IA.</span>
-            </h1>
+          <p className="max-w-sm text-base italic leading-relaxed mc-text-muted lg:text-lg">
+            Envie o pdf e receba conteúdo estruturado para publicação.
+          </p>
 
-            <p className="max-w-lg text-base mc-text-muted lg:text-lg">
-              Envie o PDF do edital e receba conteúdo estruturado, tabelas
-              automáticas e SEO pronto para publicação.
-            </p>
-          </div>
-
-          <ul className="space-y-2">
-            {[
-              "Resumo estruturado do edital médico",
-              "Tabelas de vagas por especialidade",
-              "Cronograma formatado e pronto",
-              "SEO pronto para publicação",
-            ].map((item) => (
-              <li key={item} className="flex items-center gap-2.5 text-sm text-white/80">
-                <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[var(--mc-primary-soft)] text-[#ff4d6d]">
-                  <Check className="h-3 w-3 stroke-[2.5]" />
-                </span>
-                {item}
-              </li>
-            ))}
-          </ul>
-
-          <div id="gerador">
-            <UploadForm onGenerated={setResult} busy={busy} setBusy={setBusy} />
-          </div>
+          <a
+            href="#gerador"
+            className="inline-flex items-center gap-2 rounded-full bg-[#8a1818] px-7 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#6e1212]"
+          >
+            Confira o processo
+            <span aria-hidden>↓</span>
+          </a>
         </div>
 
-        {/* RIGHT — static mockup preview (decorative) */}
-        <div className="hidden lg:block">
+        {/* RIGHT — mockup */}
+        <div className="hidden lg:flex lg:items-center lg:justify-center">
           <HeroMockup />
         </div>
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* GENERATION RESULT (appears after upload)                            */}
+      {/* UPLOAD FORM                                                          */}
+      {/* ------------------------------------------------------------------ */}
+      <section id="gerador" className="mb-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="mb-3 flex">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+              <span className="mc-pulse-dot" />
+              Upload do PDF · escolha o provedor · gere
+            </span>
+          </div>
+          <h2 className="text-2xl font-black tracking-tight text-[#8a1818] lg:text-3xl">
+            Gerar texto estruturado para o Blog MedCof
+          </h2>
+        </div>
+        <UploadForm onGenerated={setResult} busy={busy} setBusy={setBusy} />
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* GENERATION RESULT                                                    */}
       {/* ------------------------------------------------------------------ */}
       {result && (
         <section className="pb-16">
@@ -284,20 +277,47 @@ export default function HomePage() {
       )}
 
       {/* ------------------------------------------------------------------ */}
+      {/* SOCIAL MEDIA TOOL                                                    */}
+      {/* ------------------------------------------------------------------ */}
+      <section id="social" className="mb-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="mb-3 flex">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+              <span className="mc-pulse-dot" />
+              Instagram · Reels · Carrossel · Thread
+            </span>
+          </div>
+          <h2 className="text-2xl font-black tracking-tight text-[#02178a] lg:text-3xl">
+            Gerar conteúdo para redes sociais
+          </h2>
+        </div>
+        <SocialForm onGenerated={setSocialResult} busy={socialBusy} setBusy={setSocialBusy} />
+        {socialResult && (
+          <div className="mt-6">
+            <SocialPreview result={socialResult} />
+          </div>
+        )}
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
       {/* HOW IT WORKS                                                         */}
       {/* ------------------------------------------------------------------ */}
       <section
         aria-labelledby="how-it-works-heading"
         className="mc-section border-t border-[var(--mc-border)]"
       >
-        <div className="mb-10 text-center space-y-2">
+        <div className="mb-14 text-center space-y-4">
+          <div className="flex justify-center">
+            <span className="mc-section-label">Como funciona</span>
+          </div>
           <h2
             id="how-it-works-heading"
-            className="text-2xl font-extrabold tracking-tight lg:text-3xl"
+            className="text-3xl font-black tracking-[-0.025em] text-[var(--mc-text)] lg:text-4xl"
           >
-            Do PDF ao post em minutos
+            Do PDF ao post{" "}
+            <span className="mc-gradient-text">em minutos</span>
           </h2>
-          <p className="mx-auto max-w-md text-sm mc-text-muted">
+          <p className="mx-auto max-w-md text-base mc-text-muted">
             Três passos para transformar qualquer edital médico em conteúdo
             pronto para publicação.
           </p>
@@ -306,26 +326,32 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {STEPS.map(({ number, Icon, title, description }, i) => (
             <div key={number} className="relative flex gap-4 md:flex-col md:gap-0">
-              {/* connector arrow between cards (desktop only) */}
+              {/* connector arrow (desktop) */}
               {i < STEPS.length - 1 && (
                 <div className="absolute -right-2.5 top-1/2 z-10 hidden -translate-y-1/2 md:flex">
                   <ArrowRight className="h-4 w-4 mc-text-dim" />
                 </div>
               )}
 
-              <div className="mc-glass mc-card-hover flex flex-1 flex-col gap-4 p-5">
-                <div className="flex items-start justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--mc-primary-soft)]">
-                    <Icon className="h-5 w-5 text-[#ff4d6d]" />
+              <div className="mc-glass mc-card-hover group relative flex flex-1 flex-col gap-5 overflow-hidden p-6">
+                {/* Large background number */}
+                <span className="pointer-events-none absolute -right-1 -top-3 select-none text-8xl font-black leading-none text-[var(--mc-primary)]/[0.07]">
+                  {number}
+                </span>
+
+                <div className="relative flex items-start justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)] transition-all duration-300 group-hover:ring-[var(--mc-primary-border)]">
+                    <Icon className="h-5 w-5 text-[var(--mc-primary)]" />
                   </div>
-                  <span className="text-3xl font-black tracking-tighter mc-text-dim opacity-30">
-                    {number}
-                  </span>
                 </div>
-                <div>
-                  <h3 className="mb-1 font-semibold text-white">{title}</h3>
+
+                <div className="relative">
+                  <h3 className="mb-1.5 font-semibold text-[var(--mc-text)]">{title}</h3>
                   <p className="text-sm mc-text-muted leading-relaxed">{description}</p>
                 </div>
+
+                {/* Hover gradient reveal */}
+                <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[var(--mc-primary)]/[0.04] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </div>
             </div>
           ))}
@@ -339,14 +365,18 @@ export default function HomePage() {
         aria-labelledby="features-heading"
         className="mc-section border-t border-[var(--mc-border)]"
       >
-        <div className="mb-10 text-center space-y-2">
+        <div className="mb-14 text-center space-y-4">
+          <div className="flex justify-center">
+            <span className="mc-section-label">Capacidades</span>
+          </div>
           <h2
             id="features-heading"
-            className="text-2xl font-extrabold tracking-tight lg:text-3xl"
+            className="text-3xl font-black tracking-[-0.025em] text-[var(--mc-text)] lg:text-4xl"
           >
-            O que a IA entrega
+            O que a{" "}
+            <span className="mc-gradient-text">IA entrega</span>
           </h2>
-          <p className="mx-auto max-w-md text-sm mc-text-muted">
+          <p className="mx-auto max-w-md text-base mc-text-muted">
             Cada edital médico processado gera um conjunto completo de conteúdo
             editorial, estruturado e pronto para o blog.
           </p>
@@ -356,13 +386,16 @@ export default function HomePage() {
           {FEATURES.map(({ Icon, title, description }) => (
             <div
               key={title}
-              className="mc-glass mc-card-hover flex flex-col gap-3 p-5"
+              className="mc-glass mc-card-hover group relative flex flex-col gap-4 overflow-hidden p-6"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--mc-primary-soft)]">
-                <Icon className="h-4.5 w-4.5 text-[#ff4d6d]" />
+              {/* Hover gradient */}
+              <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[var(--mc-primary)]/[0.04] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)] transition-all duration-300 group-hover:ring-[var(--mc-primary-border)]">
+                <Icon className="h-4.5 w-4.5 text-[var(--mc-primary)]" />
               </div>
-              <div>
-                <h3 className="mb-1 text-sm font-semibold text-white">{title}</h3>
+              <div className="relative">
+                <h3 className="mb-1 text-sm font-semibold text-[var(--mc-text)]">{title}</h3>
                 <p className="text-xs mc-text-muted leading-relaxed">{description}</p>
               </div>
             </div>
@@ -377,34 +410,38 @@ export default function HomePage() {
         aria-labelledby="comparison-heading"
         className="mc-section border-t border-[var(--mc-border)]"
       >
-        <div className="mb-10 text-center space-y-2">
+        <div className="mb-14 text-center space-y-4">
+          <div className="flex justify-center">
+            <span className="mc-section-label">Impacto real</span>
+          </div>
           <h2
             id="comparison-heading"
-            className="text-2xl font-extrabold tracking-tight lg:text-3xl"
+            className="text-3xl font-black tracking-[-0.025em] text-[var(--mc-text)] lg:text-4xl"
           >
-            Antes e depois
+            Antes e{" "}
+            <span className="mc-gradient-text">depois</span>
           </h2>
-          <p className="mx-auto max-w-md text-sm mc-text-muted">
+          <p className="mx-auto max-w-md text-base mc-text-muted">
             Veja como o processo de publicação de editais médicos muda com IA.
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* BEFORE */}
-          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10">
-                <X className="h-3.5 w-3.5 mc-text-muted" />
+          <div className="rounded-2xl border border-[var(--mc-border)] bg-white/50 p-6 space-y-5">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--mc-primary-soft)]">
+                <X className="h-3.5 w-3.5 mc-text-dim" />
               </div>
-              <h3 className="text-sm font-semibold mc-text-muted uppercase tracking-wider">
+              <h3 className="text-xs font-semibold mc-text-dim uppercase tracking-widest">
                 Antes
               </h3>
             </div>
-            <ul className="space-y-3">
+            <ul className="space-y-3.5">
               {BEFORE.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm mc-text-muted">
-                  <span className="mt-0.5 shrink-0 h-4 w-4 rounded-full border border-white/10 flex items-center justify-center">
-                    <X className="h-2.5 w-2.5 opacity-50" />
+                <li key={item} className="flex items-start gap-3 text-sm mc-text-dim">
+                  <span className="mt-0.5 shrink-0 h-4 w-4 rounded-full border border-[var(--mc-border)] flex items-center justify-center">
+                    <X className="h-2.5 w-2.5 opacity-40" />
                   </span>
                   {item}
                 </li>
@@ -413,20 +450,23 @@ export default function HomePage() {
           </div>
 
           {/* AFTER */}
-          <div className="mc-glass mc-glow-red rounded-xl border border-[var(--mc-primary)]/25 p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--mc-primary-soft)]">
-                <Sparkles className="h-3.5 w-3.5 text-[#ff4d6d]" />
+          <div className="mc-glass mc-top-line relative overflow-hidden rounded-2xl border border-[var(--mc-border-red)] p-6 space-y-5">
+            {/* Inner red ambient */}
+            <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-[var(--mc-primary)]/5 blur-[40px]" />
+
+            <div className="relative flex items-center gap-2.5">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)]">
+                <Sparkles className="h-3.5 w-3.5 text-[var(--mc-primary)]" />
               </div>
-              <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+              <h3 className="text-xs font-semibold mc-text-muted uppercase tracking-widest">
                 Com IA
               </h3>
             </div>
-            <ul className="space-y-3">
+            <ul className="relative space-y-3.5">
               {AFTER.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-white/80">
-                  <span className="mt-0.5 shrink-0 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--mc-primary-soft)]">
-                    <Check className="h-2.5 w-2.5 text-[#ff4d6d] stroke-[2.5]" />
+                <li key={item} className="flex items-start gap-3 text-sm text-[var(--mc-text)]">
+                  <span className="mt-0.5 shrink-0 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)]">
+                    <Check className="h-2.5 w-2.5 text-[var(--mc-primary-light)] stroke-[2.5]" />
                   </span>
                   {item}
                 </li>

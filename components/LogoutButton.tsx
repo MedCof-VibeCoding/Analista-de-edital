@@ -24,7 +24,7 @@ export function LogoutButton() {
       type="button"
       onClick={onClick}
       disabled={busy}
-      className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--mc-border-strong)] bg-white/[0.03] px-3 py-1.5 text-xs font-medium mc-text-muted hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+      className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/80 transition-colors hover:bg-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
       title="Sair"
     >
       {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <LogOut className="h-3.5 w-3.5" />}

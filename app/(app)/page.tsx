@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="space-y-7">
           <h1
             id="hero-heading"
-            className="text-3xl font-black leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
+            className="text-3xl font-black italic leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
           >
             Transforme{" "}
             <span className="font-black text-[var(--mc-text)]">editais médicos</span>{" "}

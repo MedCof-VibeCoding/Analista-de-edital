@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "MedCof — Transforme editais médicos em posts com IA",
+  title: "Blog Express",
   description:
     "Envie o PDF do edital de residência médica, concurso ou prova de título e receba conteúdo estruturado, tabelas de vagas, cronograma e SEO pronto para publicação em minutos.",
   openGraph: {

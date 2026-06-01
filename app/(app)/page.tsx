@@ -226,7 +226,7 @@ export default function HomePage() {
             className="text-3xl font-black leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
           >
             Transforme{" "}
-            <span className="font-black text-[#02178a]">editais médicos</span>{" "}
+            <span className="font-black text-[var(--mc-text)]">editais médicos</span>{" "}
             em{" "}
             <em className="font-black not-italic text-[#ad1f1f]">notícias</em>{" "}
             em minutos.

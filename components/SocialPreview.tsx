@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Check, Copy, Film, Image, MessageSquare, List } from "lucide-react";
+import { Check, Copy, Film, Image, MessageSquare, Send } from "lucide-react";
 import type { SocialResponse } from "@/lib/types/api";
 
-type TabId = "reels" | "carousel" | "caption" | "thread";
+type TabId = "reels" | "carousel" | "caption" | "tweet";
 
 const TABS: { id: TabId; label: string; Icon: React.ElementType }[] = [
   { id: "reels",    label: "Reels",     Icon: Film          },
   { id: "carousel", label: "Carrossel", Icon: Image         },
   { id: "caption",  label: "Legenda",   Icon: MessageSquare },
-  { id: "thread",   label: "Thread",    Icon: List          },
+  { id: "tweet",    label: "Tweet",     Icon: Send          },
 ];
 
 interface SocialPreviewProps {
@@ -47,7 +47,7 @@ export function SocialPreview({ result }: SocialPreviewProps) {
     reels:    result.reels,
     carousel: result.carousel.join("\n\n---\n\n"),
     caption:  result.caption,
-    thread:   result.thread.join("\n\n"),
+    tweet:    result.tweet,
   };
 
   return (
@@ -116,22 +116,12 @@ export function SocialPreview({ result }: SocialPreviewProps) {
           </pre>
         )}
 
-        {activeTab === "thread" && (
-          <div className="space-y-3">
-            {result.thread.map((post, i) => (
-              <div
-                key={i}
-                className="flex gap-4 rounded-xl border border-[var(--mc-border)] bg-white/70 p-4"
-              >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--mc-primary-soft)] text-xs font-black text-[var(--mc-primary)]">
-                  {i + 1}
-                </span>
-                <div className="flex-1">
-                  <p className="text-sm leading-relaxed text-[var(--mc-text)]">{post}</p>
-                  <p className="mt-1.5 text-[10px] mc-text-dim">{post.length}/280 caracteres</p>
-                </div>
-              </div>
-            ))}
+        {activeTab === "tweet" && (
+          <div className="rounded-xl border border-[var(--mc-border)] bg-white/70 p-4">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--mc-text)]">
+              {result.tweet}
+            </p>
+            <p className="mt-2 text-[10px] mc-text-dim">{result.tweet.length}/280 caracteres</p>
           </div>
         )}
       </div>

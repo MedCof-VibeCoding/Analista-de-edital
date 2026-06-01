@@ -173,7 +173,7 @@ export function UploadForm({ onGenerated, busy, setBusy }: UploadFormProps) {
           ) : (
             <>
               <Sparkles className="h-4 w-4" />
-              Gerar post com IA
+              Gerar artigo pronto para publicação
             </>
           )}
         </button>

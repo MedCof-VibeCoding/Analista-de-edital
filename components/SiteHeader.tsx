@@ -32,14 +32,17 @@ export function SiteHeader() {
 
         {/* Logo + wordmark */}
         <div className="flex items-center gap-2.5">
-          <Image
-            src="/medcof-logo.png"
-            alt="Blog Express"
-            width={38}
-            height={38}
-            priority
-            className="h-9 w-9 rounded-xl object-cover"
-          />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl ring-black/5">
+            <Image
+              src="/logo-blog-express.png"
+              alt="Blog Express"
+              width={96}
+              height={96}
+              priority
+              unoptimized
+              className="h-10 w-10 object-contain"
+            />
+          </span>
           <span className="font-[family-name:var(--font-poppins)] text-base font-bold tracking-tight text-white">
             Blog Express
           </span>

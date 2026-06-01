@@ -44,7 +44,7 @@ export interface SocialResponse {
   reels: string;
   carousel: string[];
   caption: string;
-  thread: string[];
+  tweet: string;
   providerUsed: ProviderName;
   modelUsed: string;
 }

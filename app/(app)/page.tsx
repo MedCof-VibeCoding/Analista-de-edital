@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Sparkles,
-  Upload,
-  Cpu,
   FileText,
   Table,
   Calendar,
@@ -31,6 +29,10 @@ function HeroMockup() {
       <div className="pointer-events-none absolute inset-0 translate-x-3 translate-y-4 rounded-[1.5rem] bg-[var(--mc-primary)]/8 blur-2xl" />
       <div className="mc-float relative">
         <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[var(--mc-primary)]/5 blur-[52px]" />
+        <div className="absolute -top-5 -right-5 z-20 flex items-center gap-2 rounded-xl bg-[#6e1212] px-4 py-2.5 text-white shadow-lg ring-1 ring-white/10 font-[family-name:var(--font-poppins)] font-bold whitespace-nowrap">
+          <span className="text-base">⚡</span>
+          <span className="text-[11px] uppercase tracking-wide">Até 80% menos tempo operacional</span>
+        </div>
         <div className="mc-glass relative overflow-hidden">
           <div className="pointer-events-none absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--mc-primary)]/20 to-transparent" />
           {/* Browser chrome */}
@@ -40,14 +42,14 @@ function HeroMockup() {
               <div className="h-2 w-2 rounded-full bg-[var(--mc-primary)]/20" />
               <div className="h-2 w-2 rounded-full bg-[var(--mc-primary)]/20" />
             </div>
+            <span className="flex items-center gap-1.5 rounded-full bg-[#dcfce7] px-2.5 py-0.5 text-[9px] font-semibold text-[#166534]">
+              <span className="mc-pulse-dot h-1.5 w-1.5" style={{ background: "#166534", animation: "mc-pulse-dot 2.5s ease-in-out infinite" }} />
+              Publicado
+            </span>
             <Globe className="ml-1 h-3 w-3 shrink-0 mc-text-dim" />
             <span className="flex-1 truncate font-mono text-[10px] mc-text-dim">
               grupomedcof.com.br/blog/
               <span className="mc-text-muted">edital-residencia-medica-sirio-libanes</span>
-            </span>
-            <span className="flex items-center gap-1.5 rounded-full bg-[#dcfce7] px-2.5 py-0.5 text-[9px] font-semibold text-[#166534]">
-              <span className="mc-pulse-dot h-1.5 w-1.5" style={{ background: "#166534", animation: "mc-pulse-dot 2.5s ease-in-out infinite" }} />
-              Publicado
             </span>
           </div>
           {/* Article body */}
@@ -163,20 +165,20 @@ const FEATURES = [
 const STEPS = [
   {
     number: "01",
-    Icon: Upload,
+    emoji: "📄",
     title: "Envie o edital",
     description: "Faça upload do PDF do edital de residência médica, concurso ou prova de título.",
   },
   {
     number: "02",
-    Icon: Cpu,
-    title: "A IA estrutura tudo",
+    emoji: "📰",
+    title: "Gere a notícia para o blog",
     description: "O pipeline com OpenAI, Gemini ou DeepSeek extrai, organiza e formata as informações.",
   },
   {
     number: "03",
-    Icon: FileText,
-    title: "Receba o post pronto",
+    emoji: "📱",
+    title: "Transforme em conteúdo para Instagram",
     description: "Download do post em Markdown ou HTML, com SEO, tabelas e cronograma já preenchidos.",
   },
 ] as const;
@@ -226,20 +228,41 @@ export default function HomePage() {
             Transforme{" "}
             <span className="font-black text-[#02178a]">editais médicos</span>{" "}
             em{" "}
-            <em className="font-black not-italic text-[#ad1f1f]">notícia</em>{" "}
+            <em className="font-black not-italic text-[#ad1f1f]">notícias</em>{" "}
             em minutos.
           </h1>
 
-          <p className="max-w-sm text-base italic leading-relaxed mc-text-muted lg:text-lg">
-            Envie o pdf e receba conteúdo estruturado para publicação.
+          <p className="text-base mc-text-muted leading-relaxed">
+            Menos tempo organizando informações. Mais tempo produzindo conteúdo.
           </p>
+
+          {/* Compact how-it-works */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            {STEPS.map(({ number, emoji, title }, i) => (
+              <Fragment key={number}>
+                <div className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--mc-primary-soft)] text-base ring-1 ring-[var(--mc-border-red)]">
+                    {emoji}
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-[var(--mc-text)]">
+                      <span className="mc-text-dim mr-1">{number}</span>
+                      {title}
+                    </h3>
+                  </div>
+                </div>
+                {i < STEPS.length - 1 && (
+                  <ArrowRight className="ml-3.5 h-4 w-4 shrink-0 rotate-90 mc-text-dim sm:ml-0 sm:self-center sm:rotate-0" />
+                )}
+              </Fragment>
+            ))}
+          </div>
 
           <a
             href="#gerador"
-            className="inline-flex items-center gap-2 rounded-full bg-[#8a1818] px-7 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#6e1212]"
+            className="inline-flex items-center justify-center rounded-full bg-[#6e1212] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#5a0e0e] font-[family-name:var(--font-poppins)]"
           >
-            Confira o processo
-            <span aria-hidden>↓</span>
+            Gerar conteúdo agora
           </a>
         </div>
 
@@ -257,12 +280,15 @@ export default function HomePage() {
           <div className="mb-3 flex">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
-              Upload do PDF · escolha o provedor · gere
+              Tempo médio: 1 minuto
             </span>
           </div>
           <h2 className="text-2xl font-black tracking-tight text-[#8a1818] lg:text-3xl">
-            Gerar texto estruturado para o Blog MedCof
+            Gere notícias para o Blog MedCof
           </h2>
+          <p className="mt-2 whitespace-nowrap text-sm leading-relaxed mc-text-muted">
+            Em um só clique: converta editais importantes em artigos estruturados, otimizados para SEO e prontos para publicação.
+          </p>
         </div>
         <UploadForm onGenerated={setResult} busy={busy} setBusy={setBusy} />
       </section>
@@ -284,7 +310,7 @@ export default function HomePage() {
           <div className="mb-3 flex">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
-              Instagram · Reels · Carrossel · Thread
+              Instagram · Reels · Carrossel · Tweet
             </span>
           </div>
           <h2 className="text-2xl font-black tracking-tight text-[#02178a] lg:text-3xl">
@@ -297,65 +323,6 @@ export default function HomePage() {
             <SocialPreview result={socialResult} />
           </div>
         )}
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* HOW IT WORKS                                                         */}
-      {/* ------------------------------------------------------------------ */}
-      <section
-        aria-labelledby="how-it-works-heading"
-        className="mc-section border-t border-[var(--mc-border)]"
-      >
-        <div className="mb-14 text-center space-y-4">
-          <div className="flex justify-center">
-            <span className="mc-section-label">Como funciona</span>
-          </div>
-          <h2
-            id="how-it-works-heading"
-            className="text-3xl font-black tracking-[-0.025em] text-[var(--mc-text)] lg:text-4xl"
-          >
-            Do PDF ao post{" "}
-            <span className="mc-gradient-text">em minutos</span>
-          </h2>
-          <p className="mx-auto max-w-md text-base mc-text-muted">
-            Três passos para transformar qualquer edital médico em conteúdo
-            pronto para publicação.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {STEPS.map(({ number, Icon, title, description }, i) => (
-            <div key={number} className="relative flex gap-4 md:flex-col md:gap-0">
-              {/* connector arrow (desktop) */}
-              {i < STEPS.length - 1 && (
-                <div className="absolute -right-2.5 top-1/2 z-10 hidden -translate-y-1/2 md:flex">
-                  <ArrowRight className="h-4 w-4 mc-text-dim" />
-                </div>
-              )}
-
-              <div className="mc-glass mc-card-hover group relative flex flex-1 flex-col gap-5 overflow-hidden p-6">
-                {/* Large background number */}
-                <span className="pointer-events-none absolute -right-1 -top-3 select-none text-8xl font-black leading-none text-[var(--mc-primary)]/[0.07]">
-                  {number}
-                </span>
-
-                <div className="relative flex items-start justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--mc-primary-soft)] ring-1 ring-[var(--mc-border-red)] transition-all duration-300 group-hover:ring-[var(--mc-primary-border)]">
-                    <Icon className="h-5 w-5 text-[var(--mc-primary)]" />
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <h3 className="mb-1.5 font-semibold text-[var(--mc-text)]">{title}</h3>
-                  <p className="text-sm mc-text-muted leading-relaxed">{description}</p>
-                </div>
-
-                {/* Hover gradient reveal */}
-                <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[var(--mc-primary)]/[0.04] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ------------------------------------------------------------------ */}

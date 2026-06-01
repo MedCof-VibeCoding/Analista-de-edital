@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { AlertOctagon, Download, Loader2, Save } from "lucide-react";
+import { AlertOctagon, Copy, Download, Loader2, Save } from "lucide-react";
 import { HtmlPreview } from "./HtmlPreview";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { WarningsBanner } from "./WarningsBanner";
@@ -61,6 +61,11 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleCopyHtml = async () => {
+    await navigator.clipboard.writeText(html);
+    toast.success("HTML copiado para o clipboard.");
   };
 
   const downloadFile = (filename: string, content: string, mime: string) => {
@@ -162,7 +167,19 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
         {activeTab === "markdown" && (
           <MarkdownEditor value={markdown} onChange={setMarkdown} disabled={saving} />
         )}
-        {activeTab === "html" && <HtmlPreview html={html} />}
+        {activeTab === "html" && (
+          <div className="relative">
+            <button
+              type="button"
+              onClick={handleCopyHtml}
+              className="mc-btn-ghost mc-focus-ring absolute top-2 right-2 z-10 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs"
+            >
+              <Copy className="h-3.5 w-3.5" />
+              Copiar
+            </button>
+            <HtmlPreview html={html} />
+          </div>
+        )}
         {activeTab === "data" && (
           <pre className="h-[60vh] overflow-auto rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] p-4 font-mono text-xs leading-relaxed text-[var(--mc-text)]">
             {JSON.stringify(result.data, null, 2)}

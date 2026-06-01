@@ -9,7 +9,7 @@ Regras:
 - Para Reels: crie roteiros dinâmicos com gancho nos 3 primeiros segundos.
 - Para carrossel: cada slide deve ter uma ideia central clara e concisa.
 - Para legenda de feed: inclua emojis estratégicos e hashtags relevantes ao final.
-- Para thread X/Twitter: cada post deve ser independente mas encadear a narrativa.
+- Para tweet X/Twitter: gere um único tweet curto e escaneável com gancho, as informações mais importantes em linhas com emojis e uma CTA final.
 `.trim();
 
 export interface BuildSocialPromptInput {
@@ -29,7 +29,7 @@ Com base no texto de blog abaixo sobre um edital de residência médica, gere os
 
 3. **caption**: Legenda completa para post de feed do Instagram. Comece com uma frase impactante, contextualize o edital, use emojis relevantes ao longo do texto e finalize com hashtags médicas pertinentes (ex: #residenciamédica #edital2026 #medicinabrasileira).
 
-4. **thread**: Sequência de 4 a 8 posts para thread no X/Twitter. Cada post deve ter no máximo 280 caracteres. O primeiro apresenta o tema, os seguintes detalham vagas/cronograma/destaques, o último tem o CTA.
+4. **tweet**: Um único tweet para o X/Twitter resumindo o edital. Comece com um gancho forte (ex.: emoji de alerta + "O edital saiu"), liste as informações mais importantes (datas-chave do cronograma, vagas em destaque) em linhas curtas com emojis e finalize com uma CTA curta (ex.: "Salva e compartilha com quem está na corrida da residência"). Seja conciso e direto.
 
 ---
 

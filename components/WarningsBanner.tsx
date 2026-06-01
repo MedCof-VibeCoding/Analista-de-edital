@@ -13,19 +13,19 @@ const SEVERITY_STYLE: Record<
 > = {
   info: {
     wrapper:
-      "border-sky-400/30 bg-sky-500/10 text-sky-100",
+      "border-sky-400/40 bg-sky-500/10 text-sky-900",
     icon: Info,
     label: "Sugestão",
   },
   warn: {
     wrapper:
-      "border-amber-400/30 bg-amber-500/10 text-amber-100",
+      "border-amber-400/40 bg-amber-500/10 text-amber-900",
     icon: AlertTriangle,
     label: "Atenção",
   },
   error: {
     wrapper:
-      "border-red-400/40 bg-red-500/10 text-red-100",
+      "border-red-400/40 bg-red-500/10 text-red-900",
     icon: ShieldAlert,
     label: "Inconsistência",
   },
@@ -34,7 +34,7 @@ const SEVERITY_STYLE: Record<
 export function WarningsBanner({ warnings }: WarningsBannerProps) {
   if (warnings.length === 0) {
     return (
-      <div className="flex items-center gap-2 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+      <div className="flex items-center gap-2 rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-900">
         <CheckCircle2 className="h-4 w-4" />
         Nenhum alerta identificado pelo quality-check.
       </div>

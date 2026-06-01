@@ -135,11 +135,9 @@ export const SocialOutputSchema = z.object({
   caption: z
     .string()
     .describe("Legenda completa para post de feed do Instagram: abertura impactante, contexto, emojis e hashtags relevantes."),
-  thread: z
-    .array(z.string())
-    .min(4)
-    .max(8)
-    .describe("Sequência de posts para thread no X/Twitter. Cada item é um tweet (máx. 280 caracteres)."),
+  tweet: z
+    .string()
+    .describe("Um único tweet (X/Twitter) resumindo o edital: gancho com emoji, datas/vagas principais em bullets com emojis e uma CTA curta. Mantenha conciso e escaneável."),
 });
 
 export type SocialOutput = z.infer<typeof SocialOutputSchema>;

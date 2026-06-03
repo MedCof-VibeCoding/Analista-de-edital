@@ -90,7 +90,7 @@ function HeroMockup() {
               ].map(([esp, vagas]) => (
                 <div key={esp} className="grid grid-cols-2 border-b border-[var(--mc-border)]/40 px-3 py-2 text-xs last:border-0">
                   <span className="text-[var(--mc-text)]">{esp}</span>
-                  <span className="text-right font-semibold text-[#166534]">{vagas}</span>
+                  <span className="text-right font-semibold text-[#166534] dark:text-[#4ade80]">{vagas}</span>
                 </div>
               ))}
             </div>
@@ -101,7 +101,7 @@ function HeroMockup() {
                   { label: "Inscrições", date: "01/06 → 14/08" },
                   { label: "Prova obj.", date: "27/09" },
                 ].map(({ label, date }) => (
-                  <div key={label} className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/60 px-2.5 py-1 text-[10px]">
+                  <div key={label} className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/60 dark:bg-[rgba(239,35,60,0.12)] dark:border-[rgba(239,35,60,0.25)] px-2.5 py-1 text-[10px]">
                     <Calendar className="h-2.5 w-2.5 text-[var(--mc-primary)]" />
                     <span className="mc-text-muted">{label}</span>
                     <span className="font-semibold mc-text-muted">{date}</span>
@@ -172,13 +172,13 @@ const STEPS = [
   {
     number: "02",
     emoji: "📰",
-    title: "Gere a notícia para o blog",
+    title: "Receba o artigo pronto",
     description: "O pipeline com OpenAI, Gemini ou DeepSeek extrai, organiza e formata as informações.",
   },
   {
     number: "03",
     emoji: "📱",
-    title: "Transforme em conteúdo para Instagram",
+    title: "Adapte para Instagram",
     description: "Download do post em Markdown ou HTML, com SEO, tabelas e cronograma já preenchidos.",
   },
 ] as const;
@@ -225,15 +225,12 @@ export default function HomePage() {
             id="hero-heading"
             className="text-3xl font-black leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
           >
-            Transforme{" "}
-            <span className="font-black text-[var(--mc-text)]">editais médicos</span>{" "}
-            em{" "}
-            <em className="font-black not-italic text-[#ad1f1f]">notícias</em>{" "}
-            em minutos.
+            Transforme editais em conteúdo com{" "}
+            <em className="font-black not-italic text-[#ad1f1f]">IA.</em>
           </h1>
 
           <p className="text-base mc-text-muted leading-relaxed">
-            Menos tempo organizando informações. Mais tempo produzindo conteúdo.
+            Envie um edital e receba conteúdo estruturado, tabelas automáticas e SEO pronto para publicação.
           </p>
 
           {/* Compact how-it-works */}
@@ -258,12 +255,20 @@ export default function HomePage() {
             ))}
           </div>
 
-          <a
-            href="#gerador"
-            className="inline-flex items-center justify-center rounded-full bg-[#6e1212] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#5a0e0e] font-[family-name:var(--font-poppins)]"
-          >
-            Gerar conteúdo agora
-          </a>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a
+              href="#gerador"
+              className="inline-flex items-center justify-center rounded-full bg-[#6e1212] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#5a0e0e] font-[family-name:var(--font-poppins)]"
+            >
+              Criar conteúdo com IA
+            </a>
+            <a
+              href="#social"
+              className="inline-flex items-center justify-center rounded-full bg-[#02178a] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#011466] font-[family-name:var(--font-poppins)]"
+            >
+              Gerar para redes sociais
+            </a>
+          </div>
         </div>
 
         {/* RIGHT — mockup */}
@@ -278,12 +283,12 @@ export default function HomePage() {
       <section id="gerador" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="mb-3 flex">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] dark:bg-[#ad1f1f] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
               Tempo médio: 1 minuto
             </span>
           </div>
-          <h2 className="text-2xl font-black tracking-tight text-[#8a1818] lg:text-3xl">
+          <h2 className="text-2xl font-black tracking-tight text-[#8a1818] dark:text-white lg:text-3xl">
             Gere notícias para o Blog MedCof
           </h2>
           <p className="mt-2 whitespace-nowrap text-sm leading-relaxed mc-text-muted">
@@ -308,14 +313,17 @@ export default function HomePage() {
       <section id="social" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="mb-3 flex">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] dark:bg-[#ad1f1f] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
-              Instagram · Reels · Carrossel · Tweet
+              INSTAGRAM · REELS · CARROSSEL · MULTICANAL
             </span>
           </div>
-          <h2 className="text-2xl font-black tracking-tight text-[#02178a] lg:text-3xl">
-            Gerar conteúdo para redes sociais
+          <h2 className="text-2xl font-black tracking-tight text-[#02178a] dark:text-white lg:text-3xl">
+            Transforme artigos em conteúdo para redes sociais
           </h2>
+          <p className="mt-2 text-sm leading-relaxed mc-text-muted">
+            Transforme seu artigo em posts para Instagram, carrosséis, Reels e outros formatos em poucos segundos.
+          </p>
         </div>
         <SocialForm onGenerated={setSocialResult} busy={socialBusy} setBusy={setSocialBusy} />
         {socialResult && (
@@ -395,7 +403,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* BEFORE */}
-          <div className="rounded-2xl border border-[var(--mc-border)] bg-white/50 p-6 space-y-5">
+          <div className="rounded-2xl border border-[var(--mc-border)] bg-white/50 dark:bg-white/[0.03] dark:border-white/[0.06] p-6 space-y-5">
             <div className="flex items-center gap-2.5">
               <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--mc-primary-soft)]">
                 <X className="h-3.5 w-3.5 mc-text-dim" />

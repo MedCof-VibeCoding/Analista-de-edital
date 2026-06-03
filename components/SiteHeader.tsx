@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Building2, Newspaper } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
+import { ThemeToggle } from "./ThemeToggle";
 
 const EXTERNAL_LINKS = [
   {
@@ -67,6 +68,7 @@ export function SiteHeader() {
               <span className="sm:hidden">{shortLabel}</span>
             </a>
           ))}
+          <ThemeToggle />
           <div className="ml-1.5 border-l border-white/20 pl-2.5">
             <LogoutButton />
           </div>

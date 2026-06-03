@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(html.dark, html.dark *));
+
 :root {
   color-scheme: light;
 
@@ -55,6 +57,60 @@
   --mc-shadow-red: 0 6px 24px -6px rgba(173, 31, 31, 0.18);
   --mc-shadow-btn: 0 4px 16px -4px rgba(173, 31, 31, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   --mc-shadow-btn-hover: 0 6px 24px -4px rgba(173, 31, 31, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* ----------------------------- Dark mode tokens --------------------------- */
+html.dark {
+  color-scheme: dark;
+
+  --mc-bg: #07090f;
+  --mc-bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(173, 31, 31, 0.18), transparent 65%), #07090f;
+
+  --mc-surface: rgba(255, 255, 255, 0.04);
+  --mc-surface-raised: rgba(255, 255, 255, 0.07);
+
+  --mc-border: rgba(255, 255, 255, 0.08);
+  --mc-border-strong: rgba(255, 255, 255, 0.13);
+  --mc-border-red: rgba(173, 31, 31, 0.30);
+
+  --mc-text: #f0f0f6;
+  --mc-text-muted: #9aa0b0;
+  --mc-text-dim: #6b7088;
+
+  --mc-primary-soft: rgba(224, 40, 42, 0.15);
+  --mc-primary-soft-hover: rgba(224, 40, 42, 0.22);
+  --mc-primary-light: #ff7070;
+  --mc-primary-border: rgba(224, 40, 42, 0.35);
+
+  --mc-shadow-xs:   0 1px 4px rgba(0, 0, 0, 0.30);
+  --mc-shadow-sm:   0 2px 12px -2px rgba(0, 0, 0, 0.40);
+  --mc-shadow-md:   0 8px 32px -8px rgba(0, 0, 0, 0.50);
+  --mc-shadow-lg:   0 20px 60px -16px rgba(0, 0, 0, 0.60);
+  --mc-shadow-soft: 0 12px 48px -24px rgba(224, 40, 42, 0.25);
+  --mc-shadow-card: 0 2px 16px -4px rgba(0, 0, 0, 0.30);
+  --mc-shadow-red:  0 6px 24px -6px rgba(224, 40, 42, 0.35);
+  --mc-shadow-btn:  0 4px 16px -4px rgba(224, 40, 42, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --mc-shadow-btn-hover: 0 6px 24px -4px rgba(224, 40, 42, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+  color-scheme: dark;
+}
+
+html.dark select {
+  background-color: #111827;
+  color: var(--mc-text);
+}
+
+/* Button glow enhancement in dark mode */
+html.dark .mc-btn-primary {
+  box-shadow: var(--mc-shadow-btn), 0 0 24px -6px rgba(224, 40, 42, 0.40);
+}
+html.dark .mc-btn-primary:hover:not(:disabled) {
+  box-shadow: var(--mc-shadow-btn-hover), 0 0 32px -4px rgba(224, 40, 42, 0.55);
+  filter: brightness(1.12);
 }
 
 /* ----------------------------- Animations --------------------------------- */
@@ -242,6 +298,15 @@ textarea {
     border: 1px solid rgba(173, 31, 31, 0.10);
     border-radius: 1.25rem;
     box-shadow: var(--mc-shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  }
+
+  /* Glass card — dark mode override (hardcoded values need explicit rule) */
+  html.dark .mc-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(1.15);
+    -webkit-backdrop-filter: blur(20px) saturate(1.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 16px -4px rgba(0, 0, 0, 0.40);
   }
 
   /* Ambient red glow */

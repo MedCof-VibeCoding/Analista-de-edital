@@ -43,10 +43,46 @@ export const VacancyRowSchema = z.object({
     .describe(
       "Vagas reservadas (PCD, cotas raciais/sociais, etc.) dentro do total. Use null se o edital não citar reserva e 0 quando o edital citar explicitamente que não há reserva.",
     ),
+  countsByModality: z
+    .record(z.string(), z.number().int().nonnegative())
+    .nullable()
+    .describe(
+      "Distribuição por modalidade de concorrência conforme o edital. Chave = nome da modalidade (ex: 'AC', 'PPI', 'PCD', 'Militar', 'Trans', 'Indígenas'). Uma chave por modalidade — NUNCA agrupar categorias distintas. Use null quando o edital não detalhar modalidades.",
+    ),
   notes: z
     .string()
     .nullable()
     .describe("Observação curta sobre a vaga (ex.: tipo de reserva). Use null se não houver."),
+});
+
+export const RegistrationInfoSchema = z.object({
+  period: z
+    .string()
+    .nullable()
+    .describe("Período de inscrição conforme o edital. Use null se não mencionado."),
+  fee: z
+    .string()
+    .nullable()
+    .describe("Valor da taxa de inscrição. Use null se não mencionado."),
+  exemptionPeriod: z
+    .string()
+    .nullable()
+    .describe("Período de solicitação de isenção da taxa. Use null se não mencionado."),
+  exemptionCriteria: z
+    .string()
+    .nullable()
+    .describe("Critérios para isenção da taxa (ex.: CadÚnico, hipossuficiência). Use null se não mencionado."),
+});
+
+export const SelectionStageSchema = z.object({
+  title: z
+    .string()
+    .describe("Nome da etapa. Ex.: 'Prova Objetiva', 'Análise de Currículo', 'Entrevista'."),
+  description: z
+    .string()
+    .describe(
+      "Data, formato (presencial/online), peso e critérios de classificação da etapa. Sem repetir o cronograma.",
+    ),
 });
 
 export const NoticeExtractionSchema = z.object({
@@ -56,15 +92,27 @@ export const NoticeExtractionSchema = z.object({
   intro: z
     .string()
     .describe(
-      "Parágrafo introdutório de 3 a 5 frases apresentando o edital.",
+      "Introdução com 2 parágrafos separados por \\n\\n. Cada parágrafo: 2 a 3 linhas. Parágrafo 1: mencionar que o edital foi publicado e qual a banca/instituição responsável. Parágrafo 2: informar ao leitor que encontrará as principais informações no artigo (inscrições, vagas, cronograma, processo seletivo).",
     ),
   institutions: z
     .array(z.string())
     .describe("Instituições responsáveis pelo edital."),
-  selectionProcess: z
-    .string()
+  registrationInfo: RegistrationInfoSchema
+    .nullable()
+    .describe("Informações sobre inscrições. Use null se o edital não apresentar esses dados."),
+  vacancyTableColumns: z
+    .array(z.string())
+    .nullable()
     .describe(
-      "Resumo do processo seletivo: provas, fases, critérios de classificação.",
+      "Lista ordenada dos cabeçalhos de colunas da tabela de vagas, excluindo a coluna Especialidade, " +
+      "usando o texto EXATO do edital. Inclui a coluna de total e cada coluna de modalidade. " +
+      "Ex.: ['Total', 'AC', 'PPI', 'PCD'] ou ['Total de Vagas', 'AC', 'Militar']. " +
+      "Use null quando o edital não apresentar tabela de vagas com colunas nomeadas.",
+    ),
+  selectionStages: z
+    .array(SelectionStageSchema)
+    .describe(
+      "Uma entrada por etapa do processo seletivo. Quando houver apenas uma etapa, gerar array com um único item.",
     ),
   vacancies: z
     .array(VacancyRowSchema)
@@ -75,6 +123,8 @@ export const NoticeExtractionSchema = z.object({
 });
 
 export type NoticeExtraction = z.infer<typeof NoticeExtractionSchema>;
+export type RegistrationInfo = z.infer<typeof RegistrationInfoSchema>;
+export type SelectionStage = z.infer<typeof SelectionStageSchema>;
 
 /* ---------- Call 2: SEO ---------- */
 

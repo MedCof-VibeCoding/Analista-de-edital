@@ -1,4 +1,4 @@
-import type { NoticeExtraction, SeoMeta, VacancyRowSchema } from "@/lib/ai/schemas";
+import type { NoticeExtraction, RegistrationInfo, SeoMeta, VacancyRowSchema } from "@/lib/ai/schemas";
 import type { z } from "zod";
 
 type VacancyRow = z.infer<typeof VacancyRowSchema>;
@@ -30,13 +30,17 @@ export function renderMarkdown(input: RenderMarkdownInput): string {
     );
   }
 
+  if (extraction.registrationInfo) {
+    sections.push(renderRegistrationInfo(extraction.registrationInfo));
+  }
+
   if (extraction.vacancies.length > 0) {
     sections.push("## Vagas por instituição e especialidade");
     sections.push(renderVacanciesByInstitution(extraction));
   }
 
-  if (extraction.selectionProcess.trim().length > 0) {
-    sections.push(["## Processo seletivo", extraction.selectionProcess].join("\n\n"));
+  if (extraction.selectionStages.length > 0) {
+    sections.push(renderSelectionStages(extraction.selectionStages));
   }
 
   if (extraction.schedule.length > 0) {
@@ -53,6 +57,26 @@ function renderSeoFrontNote(seo: SeoMeta): string {
   return `> **SEO Title:** ${seo.seoTitle}  \n> **Meta Description:** ${seo.metaDescription}  \n> **Slug:** \`${seo.slug}\``;
 }
 
+/**
+ * Renders the Inscrições H2 section from registrationInfo fields.
+ */
+function renderRegistrationInfo(info: RegistrationInfo): string {
+  const lines: string[] = ["## Inscrições"];
+  if (info.period) {
+    lines.push(`- **Período de inscrição:** ${info.period}`);
+  }
+  if (info.fee) {
+    lines.push(`- **Taxa de inscrição:** ${info.fee}`);
+  }
+  if (info.exemptionPeriod) {
+    lines.push(`- **Período de isenção:** ${info.exemptionPeriod}`);
+  }
+  if (info.exemptionCriteria) {
+    lines.push(`- **Critérios de isenção:** ${info.exemptionCriteria}`);
+  }
+  return lines.join("\n");
+}
+
 function renderVacanciesByInstitution(extraction: NoticeExtraction): string {
   const groups = groupVacanciesByInstitution(extraction.vacancies);
   const blocks: string[] = [];
@@ -61,7 +85,7 @@ function renderVacanciesByInstitution(extraction: NoticeExtraction): string {
     if (groups.size > 1) {
       blocks.push(`### ${institution}`);
     }
-    blocks.push(renderVacanciesTable(vacancies));
+    blocks.push(renderVacanciesTable(vacancies, extraction.vacancyTableColumns ?? null));
   }
 
   return blocks.join("\n\n");
@@ -83,7 +107,117 @@ function groupVacanciesByInstitution(
   return groups;
 }
 
-function renderVacanciesTable(vacancies: VacancyRow[]): string {
+/**
+ * Renders vacancy table.
+ * Priority 1: canonical column list from vacancyTableColumns (exact order + names from PDF).
+ * Priority 2: infer columns from countsByModality keys (heuristic fallback).
+ * Priority 3: simple Total / Reserva columns.
+ */
+function renderVacanciesTable(
+  vacancies: VacancyRow[],
+  vacancyTableColumns: string[] | null,
+): string {
+  if (vacancyTableColumns && vacancyTableColumns.length > 0) {
+    return renderVacanciesTableWithColumns(vacancies, vacancyTableColumns);
+  }
+
+  const modalityKeys = collectModalityKeys(vacancies);
+  if (modalityKeys.length > 0) {
+    return renderVacanciesTableWithModalities(vacancies, modalityKeys);
+  }
+
+  return renderVacanciesTableSimple(vacancies);
+}
+
+/**
+ * Renders vacancy table using the authoritative ordered column list from the schema.
+ * Each cell resolves from countsByModality[col], with a fallback to vacancy.total
+ * for columns whose name starts with "total" (case-insensitive) when countsByModality
+ * is absent — ensuring backward-compatibility with older extractions.
+ */
+function renderVacanciesTableWithColumns(
+  vacancies: VacancyRow[],
+  columns: string[],
+): string {
+  const hasAnyNotes = vacancies.some((v) => v.notes?.trim());
+  const header = [
+    "Especialidade",
+    ...columns,
+    ...(hasAnyNotes ? ["Observações"] : []),
+  ];
+  const separator = header.map(() => "---");
+
+  const rows = vacancies.map((v) => {
+    const cells = [
+      escapeCell(v.specialty),
+      ...columns.map((col) => {
+        const fromMap = v.countsByModality?.[col];
+        if (fromMap != null) return String(fromMap);
+        if (/^total/i.test(col) && v.total != null) return String(v.total);
+        return EMPTY_CELL;
+      }),
+    ];
+    if (hasAnyNotes) {
+      cells.push(v.notes ? escapeCell(v.notes) : EMPTY_CELL);
+    }
+    return cells;
+  });
+
+  return buildMarkdownTable(header, separator, rows);
+}
+
+/** Collects all unique modality keys across a group of vacancy rows, sorted with AC first. */
+function collectModalityKeys(vacancies: VacancyRow[]): string[] {
+  const keySet = new Set<string>();
+  for (const v of vacancies) {
+    if (v.countsByModality) {
+      for (const key of Object.keys(v.countsByModality)) {
+        keySet.add(key);
+      }
+    }
+  }
+  if (keySet.size === 0) return [];
+
+  const sorted = Array.from(keySet).sort((a, b) => {
+    if (a === "AC") return -1;
+    if (b === "AC") return 1;
+    return a.localeCompare(b, "pt-BR");
+  });
+
+  return sorted;
+}
+
+function renderVacanciesTableWithModalities(
+  vacancies: VacancyRow[],
+  modalityKeys: string[],
+): string {
+  const hasAnyNotes = vacancies.some((v) => v.notes && v.notes.trim().length > 0);
+  const header = [
+    "Especialidade",
+    "Total",
+    ...modalityKeys,
+    ...(hasAnyNotes ? ["Observações"] : []),
+  ];
+  const separator = header.map(() => "---");
+
+  const rows = vacancies.map((v) => {
+    const cells = [
+      escapeCell(v.specialty),
+      v.total != null ? String(v.total) : EMPTY_CELL,
+      ...modalityKeys.map((key) =>
+        v.countsByModality?.[key] != null ? String(v.countsByModality[key]) : EMPTY_CELL,
+      ),
+    ];
+    if (hasAnyNotes) {
+      cells.push(v.notes ? escapeCell(v.notes) : EMPTY_CELL);
+    }
+    return cells;
+  });
+
+  return buildMarkdownTable(header, separator, rows);
+}
+
+function renderVacanciesTableSimple(vacancies: VacancyRow[]): string {
   const hasAnyNotes = vacancies.some((v) => v.notes && v.notes.trim().length > 0);
   const header = hasAnyNotes
     ? ["Especialidade", "Total de Vagas", "Reserva", "Observações"]
@@ -102,6 +236,29 @@ function renderVacanciesTable(vacancies: VacancyRow[]): string {
   });
 
   return buildMarkdownTable(header, separator, rows);
+}
+
+/**
+ * Renders the Processo Seletivo H2 section. When there are multiple stages,
+ * each stage gets an H3 heading. Single-stage editals render no H3.
+ */
+function renderSelectionStages(
+  stages: NoticeExtraction["selectionStages"],
+): string {
+  const lines: string[] = ["## Processo Seletivo"];
+
+  if (stages.length === 1) {
+    lines.push("");
+    lines.push(stages[0].description);
+  } else {
+    for (const stage of stages) {
+      lines.push("");
+      lines.push(`### ${stage.title}`);
+      lines.push(stage.description);
+    }
+  }
+
+  return lines.join("\n");
 }
 
 function renderScheduleTable(

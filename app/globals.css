@@ -77,20 +77,24 @@ html.dark {
   --mc-text-muted: #9aa0b0;
   --mc-text-dim: #6b7088;
 
-  --mc-primary-soft: rgba(224, 40, 42, 0.15);
-  --mc-primary-soft-hover: rgba(224, 40, 42, 0.22);
-  --mc-primary-light: #ff7070;
-  --mc-primary-border: rgba(224, 40, 42, 0.35);
+  --mc-primary: #DC2626;
+  --mc-primary-hover: #EF4444;
+  --mc-primary-deep: #B91C1C;
+  --mc-primary-light: #EF4444;
+  --mc-primary-soft: rgba(220, 38, 38, 0.15);
+  --mc-primary-soft-hover: rgba(220, 38, 38, 0.22);
+  --mc-primary-border: rgba(239, 68, 68, 0.35);
+  --mc-border-red: rgba(220, 38, 38, 0.30);
 
   --mc-shadow-xs:   0 1px 4px rgba(0, 0, 0, 0.30);
   --mc-shadow-sm:   0 2px 12px -2px rgba(0, 0, 0, 0.40);
   --mc-shadow-md:   0 8px 32px -8px rgba(0, 0, 0, 0.50);
   --mc-shadow-lg:   0 20px 60px -16px rgba(0, 0, 0, 0.60);
-  --mc-shadow-soft: 0 12px 48px -24px rgba(224, 40, 42, 0.25);
+  --mc-shadow-soft: 0 12px 48px -24px rgba(220, 38, 38, 0.30);
   --mc-shadow-card: 0 2px 16px -4px rgba(0, 0, 0, 0.30);
-  --mc-shadow-red:  0 6px 24px -6px rgba(224, 40, 42, 0.35);
-  --mc-shadow-btn:  0 4px 16px -4px rgba(224, 40, 42, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --mc-shadow-btn-hover: 0 6px 24px -4px rgba(224, 40, 42, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --mc-shadow-red:  0 6px 24px -6px rgba(220, 38, 38, 0.40);
+  --mc-shadow-btn:  0 4px 16px -4px rgba(220, 38, 38, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --mc-shadow-btn-hover: 0 6px 24px -4px rgba(220, 38, 38, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
 
 html.dark input,
@@ -104,13 +108,15 @@ html.dark select {
   color: var(--mc-text);
 }
 
-/* Button glow enhancement in dark mode */
+/* Button gradient + glow in dark mode */
 html.dark .mc-btn-primary {
-  box-shadow: var(--mc-shadow-btn), 0 0 24px -6px rgba(224, 40, 42, 0.40);
+  background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+  box-shadow: var(--mc-shadow-btn), 0 0 30px rgba(239, 68, 68, 0.25);
 }
 html.dark .mc-btn-primary:hover:not(:disabled) {
-  box-shadow: var(--mc-shadow-btn-hover), 0 0 32px -4px rgba(224, 40, 42, 0.55);
-  filter: brightness(1.12);
+  background: linear-gradient(180deg, #FF5A5A 0%, #EF4444 100%);
+  box-shadow: var(--mc-shadow-btn-hover), 0 0 30px rgba(239, 68, 68, 0.40);
+  filter: brightness(1.05);
 }
 
 /* ----------------------------- Animations --------------------------------- */
@@ -298,6 +304,14 @@ textarea {
     border: 1px solid rgba(173, 31, 31, 0.10);
     border-radius: 1.25rem;
     box-shadow: var(--mc-shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  }
+
+  /* Gradient text — dark mode uses vibrant red */
+  html.dark .mc-gradient-text {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   /* Glass card — dark mode override (hardcoded values need explicit rule) */

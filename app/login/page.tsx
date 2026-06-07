@@ -60,7 +60,7 @@ function LoginForm() {
           <div className="absolute -inset-2 rounded-2xl bg-[var(--mc-primary)]/8 blur-lg" />
           <Image
             src="/medcof-logo.png"
-            alt="MedCof"
+            alt="Blog Express"
             width={56}
             height={56}
             priority
@@ -69,7 +69,7 @@ function LoginForm() {
         </div>
         <div className="space-y-0.5">
           <h1 className="text-2xl font-black tracking-[-0.025em] text-[var(--mc-text)]">
-            Med<span className="mc-gradient-text">Cof</span>
+            Blog<span className="mc-gradient-text"> Express</span>
           </h1>
           <p className="text-[10px] font-semibold uppercase tracking-[0.20em] mc-text-dim">
             Editor de Editais
@@ -83,7 +83,7 @@ function LoginForm() {
           <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest mc-text-muted">
             Usuário
           </span>
-          <div className="flex items-center gap-2.5 rounded-xl border border-[var(--mc-border-red)] bg-white/70 px-3.5 transition-colors focus-within:border-[var(--mc-primary-border)] focus-within:bg-white/90">
+          <div className="flex items-center gap-2.5 rounded-xl border border-[var(--mc-border-red)] bg-white/70 dark:bg-[#111827] px-3.5 transition-colors hover:border-[var(--mc-primary-border)] dark:hover:border-red-500/40 focus-within:border-[var(--mc-primary-border)] focus-within:bg-white/90 dark:focus-within:bg-[#111827] dark:focus-within:border-red-500 dark:focus-within:ring-2 dark:focus-within:ring-red-500/15">
             <User className="h-4 w-4 shrink-0 text-[var(--mc-primary)]" />
             <input
               type="text"
@@ -92,7 +92,7 @@ function LoginForm() {
               value={username}
               onChange={(event) => setUsername(event.target.value)}
               disabled={busy}
-              className="mc-focus-ring w-full bg-transparent py-2.5 text-sm text-[var(--mc-text)] outline-none placeholder:mc-text-dim"
+              className="mc-focus-ring w-full bg-transparent py-2.5 text-sm text-[var(--mc-text)] outline-none placeholder:mc-text-dim dark:placeholder:text-white/45"
             />
           </div>
         </label>
@@ -101,7 +101,7 @@ function LoginForm() {
           <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest mc-text-muted">
             Senha
           </span>
-          <div className="flex items-center gap-2.5 rounded-xl border border-[var(--mc-border-red)] bg-white/70 px-3.5 transition-colors focus-within:border-[var(--mc-primary-border)] focus-within:bg-white/90">
+          <div className="flex items-center gap-2.5 rounded-xl border border-[var(--mc-border-red)] bg-white/70 dark:bg-[#111827] px-3.5 transition-colors hover:border-[var(--mc-primary-border)] dark:hover:border-red-500/40 focus-within:border-[var(--mc-primary-border)] focus-within:bg-white/90 dark:focus-within:bg-[#111827] dark:focus-within:border-red-500 dark:focus-within:ring-2 dark:focus-within:ring-red-500/15">
             <Lock className="h-4 w-4 shrink-0 text-[var(--mc-primary)]" />
             <input
               type="password"
@@ -110,13 +110,13 @@ function LoginForm() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               disabled={busy}
-              className="mc-focus-ring w-full bg-transparent py-2.5 text-sm text-[var(--mc-text)] outline-none"
+              className="mc-focus-ring w-full bg-transparent py-2.5 text-sm text-[var(--mc-text)] outline-none placeholder:mc-text-dim dark:placeholder:text-white/45"
             />
           </div>
         </label>
 
         {error && (
-          <div className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-sm text-red-700">
+          <div className="rounded-xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-sm text-red-700 dark:bg-red-950/50 dark:border-red-500/30 dark:text-red-400">
             {error}
           </div>
         )}

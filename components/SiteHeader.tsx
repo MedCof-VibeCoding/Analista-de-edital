@@ -29,25 +29,25 @@ export function SiteHeader() {
       {/* Subtle bottom shadow for separation from content */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-black/20" />
 
-      <div className="relative mx-auto flex max-w-6xl items-center gap-4 px-4 py-2.5 lg:px-8">
+      <div className="relative mx-auto flex max-w-6xl items-center gap-4 px-4 py-2 lg:px-8">
 
         {/* Logo + wordmark */}
-        <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl ring-black/5">
+        <div className="flex items-center gap-3.5">
+                  <span className="flex shrink-0 items-center justify-center">
             <Image
-              src="/logo-blog-express.png"
+              src="/logo-blog-express2.png"
               alt="Blog Express"
               width={96}
               height={96}
               priority
               unoptimized
-              className="h-10 w-10 object-contain"
+              className="h-14 w-14 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
             />
           </span>
-          <span className="font-[family-name:var(--font-poppins)] text-base font-bold tracking-tight text-white">
+          <span className="font-[family-name:var(--font-poppins)] text-xl font-extrabold tracking-[-0.02em] text-white">
             Blog Express
           </span>
-          <span className="hidden sm:inline-flex items-center rounded-full border border-white/25 bg-white/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white/90">
+          <span className="hidden sm:inline-flex items-center rounded-full border border-white/15 bg-white/[0.07] px-2 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-white/60">
             Beta
           </span>
         </div>

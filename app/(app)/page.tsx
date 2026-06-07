@@ -29,7 +29,7 @@ function HeroMockup() {
       <div className="pointer-events-none absolute inset-0 translate-x-3 translate-y-4 rounded-[1.5rem] bg-[var(--mc-primary)]/8 blur-2xl" />
       <div className="mc-float relative">
         <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[var(--mc-primary)]/5 blur-[52px]" />
-        <div className="absolute -top-5 -right-5 z-20 flex items-center gap-2 rounded-xl bg-[#6e1212] px-4 py-2.5 text-white shadow-lg ring-1 ring-white/10 font-[family-name:var(--font-poppins)] font-bold whitespace-nowrap">
+        <div className="absolute -top-5 -right-5 z-20 flex items-center gap-2 rounded-xl bg-[#6e1212] dark:bg-[#DC2626] px-4 py-2.5 text-white shadow-lg ring-1 ring-white/10 font-[family-name:var(--font-poppins)] font-bold whitespace-nowrap">
           <span className="text-base">⚡</span>
           <span className="text-[11px] uppercase tracking-wide">Até 80% menos tempo operacional</span>
         </div>
@@ -101,7 +101,7 @@ function HeroMockup() {
                   { label: "Inscrições", date: "01/06 → 14/08" },
                   { label: "Prova obj.", date: "27/09" },
                 ].map(({ label, date }) => (
-                  <div key={label} className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/60 dark:bg-[rgba(239,35,60,0.12)] dark:border-[rgba(239,35,60,0.25)] px-2.5 py-1 text-[10px]">
+                  <div key={label} className="flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/60 dark:bg-[rgba(220,38,38,0.15)] dark:border-[rgba(239,68,68,0.30)] px-2.5 py-1 text-[10px]">
                     <Calendar className="h-2.5 w-2.5 text-[var(--mc-primary)]" />
                     <span className="mc-text-muted">{label}</span>
                     <span className="font-semibold mc-text-muted">{date}</span>
@@ -226,7 +226,7 @@ export default function HomePage() {
             className="text-3xl font-black leading-[1.06] tracking-[-0.03em] text-[var(--mc-text)] lg:text-4xl xl:text-5xl"
           >
             Transforme editais em conteúdo com{" "}
-            <em className="font-black not-italic text-[#ad1f1f]">IA.</em>
+            <em className="font-black not-italic text-[#ad1f1f] dark:text-[#EF4444]">IA.</em>
           </h1>
 
           <p className="text-base mc-text-muted leading-relaxed">
@@ -258,13 +258,13 @@ export default function HomePage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href="#gerador"
-              className="inline-flex items-center justify-center rounded-full bg-[#6e1212] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#5a0e0e] font-[family-name:var(--font-poppins)]"
+              className="mc-btn-primary mc-focus-ring inline-flex items-center justify-center rounded-full px-10 py-4 text-base font-bold font-[family-name:var(--font-poppins)]"
             >
               Criar conteúdo com IA
             </a>
             <a
               href="#social"
-              className="inline-flex items-center justify-center rounded-full bg-[#02178a] px-10 py-4 text-base font-bold text-white transition-colors hover:bg-[#011466] font-[family-name:var(--font-poppins)]"
+              className="mc-btn-primary mc-focus-ring inline-flex items-center justify-center rounded-full px-10 py-4 text-base font-bold font-[family-name:var(--font-poppins)]"
             >
               Gerar para redes sociais
             </a>
@@ -283,7 +283,7 @@ export default function HomePage() {
       <section id="gerador" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="mb-3 flex">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] dark:bg-[#ad1f1f] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#1a6fcc] dark:bg-[#DC2626] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
               Tempo médio: 1 minuto
             </span>
@@ -313,7 +313,7 @@ export default function HomePage() {
       <section id="social" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="mb-3 flex">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] dark:bg-[#ad1f1f] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#02178a] dark:bg-[#DC2626] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-sm">
               <span className="mc-pulse-dot" />
               INSTAGRAM · REELS · CARROSSEL · MULTICANAL
             </span>

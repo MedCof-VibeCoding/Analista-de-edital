@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { renderHtml } from "@/lib/renderers/html";
-import { updateJobMarkdown } from "@/lib/storage/local-output-store";
+import { updateJobMarkdown } from "@/lib/storage/mongo-output-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -7,7 +7,8 @@ import { getServerConfig, isProviderName } from "@/lib/config/server";
 import { PdfExtractionError, extractPdfText } from "@/lib/pdf/extract-text";
 import { renderHtml } from "@/lib/renderers/html";
 import { renderMarkdown } from "@/lib/renderers/markdown";
-import { writeJob, type StoredJobData } from "@/lib/storage/local-output-store";
+import { writeJob } from "@/lib/storage/mongo-output-store";
+import type { StoredJobData } from "@/lib/storage/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

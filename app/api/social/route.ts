@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { error: parsed.error.errors[0]?.message ?? "Dados inválidos." },
+      { error: parsed.error.issues[0]?.message ?? "Dados inválidos." },
       { status: 400 },
     );
   }

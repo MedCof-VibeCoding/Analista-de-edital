@@ -3,21 +3,9 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { getServerConfig } from "@/lib/config/server";
-import type { AiPipelineResult } from "@/lib/ai/schemas";
+import type { SavedJob, StoredJobData } from "@/lib/storage/types";
 
-export interface StoredJobData extends AiPipelineResult {
-  jobId: string;
-  sourceFilename: string;
-  createdAt: string;
-  updatedAt?: string;
-}
-
-export interface SavedJob {
-  jobId: string;
-  data: StoredJobData;
-  markdown: string;
-  html: string;
-}
+export type { SavedJob, StoredJobData } from "@/lib/storage/types";
 
 const FILES = {
   data: "data.json",

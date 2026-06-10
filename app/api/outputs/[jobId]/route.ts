@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readJob } from "@/lib/storage/local-output-store";
+import { readJob } from "@/lib/storage/mongo-output-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

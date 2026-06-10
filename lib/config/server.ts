@@ -17,7 +17,10 @@ export interface ServerConfig {
   mongo: { uri: string | null; db: string; collection: string };
   maxPdfBytes: number;
   outputsDir: string;
+  mongo: { uri: string | null; dbName: string };
 }
+
+const DEFAULT_MONGO_DB = "medcof_editais";
 
 /**
  * Reads and validates env vars once per process. Throws if AI_PROVIDER value is invalid.
@@ -55,6 +58,10 @@ export function getServerConfig(): ServerConfig {
     },
     maxPdfBytes: safeMaxPdfMb * 1024 * 1024,
     outputsDir: process.env.OUTPUTS_DIR?.trim() || "./outputs",
+    mongo: {
+      uri: emptyToNull(process.env.MONGODB_URI),
+      dbName: process.env.MONGODB_DB?.trim() || DEFAULT_MONGO_DB,
+    },
   };
 }
 

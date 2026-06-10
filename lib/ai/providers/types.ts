@@ -21,6 +21,20 @@ export interface AiProvider {
   ): Promise<z.infer<T>>;
 }
 
+/**
+ * Logs the outgoing AI request with its endpoint, model and provider for observability.
+ */
+export function logAiRequest(args: {
+  provider: ProviderName;
+  model: string;
+  url: string;
+  schemaName: string;
+}): void {
+  console.info(
+    `[AI request] provider=${args.provider} model=${args.model} schema=${args.schemaName} url=${args.url}`,
+  );
+}
+
 export class AiProviderError extends Error {
   readonly provider: ProviderName;
   readonly code: "MISSING_KEY" | "INVALID_RESPONSE" | "API_ERROR";

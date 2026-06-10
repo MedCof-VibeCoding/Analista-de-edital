@@ -40,6 +40,24 @@ export interface SavedJobResponse {
   html: string;
 }
 
+export interface AnalysisSummary {
+  jobId: string;
+  title: string;
+  institutions: string[];
+  sourceFilename: string;
+  providerUsed: string;
+  modelUsed: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AnalysisListResponse {
+  items: AnalysisSummary[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 export interface SocialResponse {
   reels: string;
   carousel: string[];

@@ -6,12 +6,15 @@ const DEFAULT_OPENAI_MODEL = "gpt-5.5";
 const DEFAULT_GEMINI_MODEL = "gemini-2.5-pro";
 const DEFAULT_DEEPSEEK_MODEL = "deepseek-chat";
 const DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com";
+const DEFAULT_MONGODB_DB = "analista_editais";
+const DEFAULT_MONGODB_COLLECTION = "analyses";
 
 export interface ServerConfig {
   defaultProvider: ProviderName;
   openai: { apiKey: string | null; model: string };
   gemini: { apiKey: string | null; model: string };
   deepseek: { apiKey: string | null; model: string; baseURL: string };
+  mongo: { uri: string | null; db: string; collection: string };
   maxPdfBytes: number;
   outputsDir: string;
 }
@@ -44,6 +47,11 @@ export function getServerConfig(): ServerConfig {
       apiKey: emptyToNull(process.env.DEEPSEEK_API_KEY),
       model: process.env.DEEPSEEK_MODEL?.trim() || DEFAULT_DEEPSEEK_MODEL,
       baseURL: process.env.DEEPSEEK_BASE_URL?.trim() || DEFAULT_DEEPSEEK_BASE_URL,
+    },
+    mongo: {
+      uri: emptyToNull(process.env.MONGODB_URI),
+      db: process.env.MONGODB_DB?.trim() || DEFAULT_MONGODB_DB,
+      collection: process.env.MONGODB_COLLECTION?.trim() || DEFAULT_MONGODB_COLLECTION,
     },
     maxPdfBytes: safeMaxPdfMb * 1024 * 1024,
     outputsDir: process.env.OUTPUTS_DIR?.trim() || "./outputs",

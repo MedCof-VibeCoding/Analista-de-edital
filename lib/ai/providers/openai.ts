@@ -4,6 +4,7 @@ import { zodTextFormat } from "openai/helpers/zod";
 import type { z } from "zod";
 import {
   AiProviderError,
+  logAiRequest,
   type AiProvider,
   type GenerateStructuredArgs,
 } from "./types";
@@ -26,6 +27,12 @@ export function createOpenAiProvider(config: OpenAiProviderConfig): AiProvider {
       args: GenerateStructuredArgs<T>,
     ): Promise<z.infer<T>> {
       try {
+        logAiRequest({
+          provider: "openai",
+          model: config.model,
+          url: `${client.baseURL}/responses`,
+          schemaName: args.schemaName,
+        });
         const response = await client.responses.parse({
           model: config.model,
           input: [

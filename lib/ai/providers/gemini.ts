@@ -3,6 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import {
   AiProviderError,
+  logAiRequest,
   type AiProvider,
   type GenerateStructuredArgs,
 } from "./types";
@@ -30,6 +31,12 @@ export function createGeminiProvider(config: GeminiProviderConfig): AiProvider {
 
       let rawText: string;
       try {
+        logAiRequest({
+          provider: "gemini",
+          model: config.model,
+          url: `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent`,
+          schemaName: args.schemaName,
+        });
         const response = await ai.models.generateContent({
           model: config.model,
           contents: [{ role: "user", parts: [{ text: args.user }] }],

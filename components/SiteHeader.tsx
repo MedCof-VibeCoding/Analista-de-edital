@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Building2, Newspaper } from "lucide-react";
+import Link from "next/link";
+import { Building2, Newspaper, FolderSearch } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -33,20 +34,26 @@ export function SiteHeader() {
 
         {/* Logo + wordmark */}
         <div className="flex items-center gap-3.5">
-                  <span className="flex shrink-0 items-center justify-center">
-            <Image
-              src="/logo-blog-express2.png"
-              alt="Blog Express"
-              width={96}
-              height={96}
-              priority
-              unoptimized
-              className="h-14 w-14 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
-            />
-          </span>
-          <span className="font-[family-name:var(--font-poppins)] text-xl font-extrabold tracking-[-0.02em] text-white">
-            Blog Express
-          </span>
+          <Link
+            href="/"
+            title="Voltar para a página inicial"
+            className="mc-focus-ring flex items-center gap-3.5 rounded-lg transition-opacity duration-150 hover:opacity-90"
+          >
+            <span className="flex shrink-0 items-center justify-center">
+              <Image
+                src="/logo-blog-express2.png"
+                alt="Blog Express"
+                width={96}
+                height={96}
+                priority
+                unoptimized
+                className="h-14 w-14 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
+              />
+            </span>
+            <span className="font-[family-name:var(--font-poppins)] text-xl font-extrabold tracking-[-0.02em] text-white">
+              Blog Express
+            </span>
+          </Link>
           <span className="hidden sm:inline-flex items-center rounded-full border border-white/15 bg-white/[0.07] px-2 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-white/60">
             Beta
           </span>
@@ -54,6 +61,15 @@ export function SiteHeader() {
 
         {/* Nav + logout */}
         <div className="flex flex-1 items-center justify-end gap-0.5">
+          <Link
+            href="/analises"
+            title="Consultar análises de editais salvas"
+            className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-white/80 transition-all duration-150 hover:bg-white/10 hover:text-white"
+          >
+            <FolderSearch className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Análises salvas</span>
+            <span className="sm:hidden">Análises</span>
+          </Link>
           {EXTERNAL_LINKS.map(({ href, label, shortLabel, title, Icon }) => (
             <a
               key={href}

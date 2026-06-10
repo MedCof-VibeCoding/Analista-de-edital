@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { renderHtml } from "@/lib/renderers/html";
 import { updateJobMarkdown } from "@/lib/storage/local-output-store";
+import { updateAnalysisMarkdown } from "@/lib/storage/mongo-analysis-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,6 +29,11 @@ export async function PUT(
   try {
     const html = renderHtml(body.markdown);
     const saved = await updateJobMarkdown({ jobId, markdown: body.markdown, html });
+    try {
+      await updateAnalysisMarkdown({ jobId, markdown: body.markdown, html });
+    } catch (cause) {
+      console.error(`Falha ao sincronizar análise ${jobId} no MongoDB:`, cause);
+    }
     return NextResponse.json(saved);
   } catch (cause) {
     const message = (cause as Error).message;

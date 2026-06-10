@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import { z } from "zod";
 import {
   AiProviderError,
+  logAiRequest,
   type AiProvider,
   type GenerateStructuredArgs,
 } from "./types";
@@ -34,6 +35,12 @@ export function createDeepSeekProvider(config: DeepSeekProviderConfig): AiProvid
           ? `${userWithSchema}\n\nObservação: ${extraInstruction}`
           : userWithSchema;
         try {
+          logAiRequest({
+            provider: "deepseek",
+            model: config.model,
+            url: `${client.baseURL}/chat/completions`,
+            schemaName: args.schemaName,
+          });
           const response = await client.chat.completions.create({
             model: config.model,
             messages: [

@@ -8,6 +8,7 @@ import { PdfExtractionError, extractPdfText } from "@/lib/pdf/extract-text";
 import { renderHtml } from "@/lib/renderers/html";
 import { renderMarkdown } from "@/lib/renderers/markdown";
 import { writeJob, type StoredJobData } from "@/lib/storage/local-output-store";
+import { saveAnalysis } from "@/lib/storage/mongo-analysis-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -123,6 +124,12 @@ export async function POST(request: Request) {
   };
 
   await writeJob({ jobId, data, markdown, html });
+
+  try {
+    await saveAnalysis({ jobId, data, markdown, html });
+  } catch (cause) {
+    console.error(`Falha ao persistir análise ${jobId} no MongoDB:`, cause);
+  }
 
   return NextResponse.json({
     jobId,

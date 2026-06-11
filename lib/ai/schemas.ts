@@ -44,7 +44,7 @@ export const VacancyRowSchema = z.object({
       "Vagas reservadas (PCD, cotas raciais/sociais, etc.) dentro do total. Use null se o edital não citar reserva e 0 quando o edital citar explicitamente que não há reserva.",
     ),
   countsByModality: z
-    .record(z.string(), z.number().int().nonnegative())
+    .object({}).catchall(z.number().int().nonnegative())
     .nullable()
     .describe(
       "Distribuição por modalidade de concorrência conforme o edital. Chave = nome da modalidade (ex: 'AC', 'PPI', 'PCD', 'Militar', 'Trans', 'Indígenas'). Uma chave por modalidade — NUNCA agrupar categorias distintas. Use null quando o edital não detalhar modalidades.",

@@ -93,7 +93,7 @@ export function GenerationPreview({ result, onUpdate }: GenerationPreviewProps) 
               {result.providerUsed} · {result.modelUsed}
             </span>
             {errorCount > 0 && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-red-700">
+              <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-red-700 dark:border-red-500/60 dark:bg-red-950/50 dark:text-red-300">
                 <AlertOctagon className="h-3 w-3" />
                 {errorCount} inconsistência{errorCount > 1 ? "s" : ""}
               </span>

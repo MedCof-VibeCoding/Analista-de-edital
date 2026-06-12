@@ -32,7 +32,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/70 px-3 py-1.5 text-xs font-medium text-[var(--mc-text-muted)] transition-colors hover:bg-white/90"
+      className="mc-focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--mc-border)] bg-white/70 dark:bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-[var(--mc-text-muted)] transition-colors hover:bg-white/90 dark:hover:bg-white/[0.10]"
     >
       {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
       {copied ? "Copiado" : "Copiar"}
@@ -89,7 +89,7 @@ export function SocialPreview({ result }: SocialPreviewProps) {
 
       <div className="relative mt-5">
         {activeTab === "reels" && (
-          <pre className="whitespace-pre-wrap rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] p-5 font-sans text-sm leading-relaxed text-[var(--mc-text)]">
+          <pre className="whitespace-pre-wrap rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] dark:bg-white/[0.03] p-5 font-sans text-sm leading-relaxed text-[var(--mc-text)]">
             {result.reels}
           </pre>
         )}
@@ -99,7 +99,7 @@ export function SocialPreview({ result }: SocialPreviewProps) {
             {result.carousel.map((slide, i) => (
               <div
                 key={i}
-                className="flex gap-4 rounded-xl border border-[var(--mc-border)] bg-white/70 p-4"
+                className="flex gap-4 rounded-xl border border-[var(--mc-border)] bg-white/70 dark:bg-white/[0.04] p-4"
               >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--mc-primary-soft)] text-xs font-black text-[var(--mc-primary)]">
                   {i + 1}
@@ -111,13 +111,13 @@ export function SocialPreview({ result }: SocialPreviewProps) {
         )}
 
         {activeTab === "caption" && (
-          <pre className="whitespace-pre-wrap rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] p-5 font-sans text-sm leading-relaxed text-[var(--mc-text)]">
+          <pre className="whitespace-pre-wrap rounded-2xl border border-[var(--mc-border)] bg-[#fff1f2] dark:bg-white/[0.03] p-5 font-sans text-sm leading-relaxed text-[var(--mc-text)]">
             {result.caption}
           </pre>
         )}
 
         {activeTab === "tweet" && (
-          <div className="rounded-xl border border-[var(--mc-border)] bg-white/70 p-4">
+          <div className="rounded-xl border border-[var(--mc-border)] bg-white/70 dark:bg-white/[0.04] p-4">
             <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--mc-text)]">
               {result.tweet}
             </p>
